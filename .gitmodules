@@ -1,3 +1,0 @@
-[submodule "alarmdb"]
-	path = cpt/alarmdb
-	url = https://github.com/automatikas/AlarmDB
