@@ -1,12 +1,12 @@
 <?php
-/**
+/*
  * AlarmDB <https://github.com/automatikas/AlarmDB>
- * AlarmDB API FG32 Model
+ * AlarmDB for EasyIO FG and FS controllers:: API controller models
  *
  * @author     Andrius Jasiulionis <automatikas@gmail.com>
  * @copyright  Copyright (c) 2017, Andrius Jasiulionis
  * @license    MIT
- * @version    1.01
+ * @version    2.07
  */
  
 class UI_model {

@@ -1,17 +1,17 @@
 /*
-
-MODS: 
-v1.01 PUT and DELETE methods not suported in FG. Changed to POST instead check functions acknAlarms and delAlarms for workaround
-ISSUES:
-v1.01 FG function doAjaxPost() if method is POST does not check msg payload if auth_key exists but instead it looks for GET value even if it is defined in the payload.
-//need header for post methods to render in the get link
+ * AlarmDB <https://github.com/automatikas/AlarmDB>
+ * AlarmDB JS 
+ *
+ * @author     Andrius Jasiulionis <automatikas@gmail.com>
+ * @copyright  Copyright (c) 2017, Andrius Jasiulionis
+ * @license    MIT
+ * @version    2.07.1
 */
-
-
+ 
 var AlarmDbSettings = {
-		title: "AlarmDB UI core for EasyIO FG32",
+		title: "AlarmDB API UI core",
 		href: "https://github.com/automatikas/AlarmDB/releases/tag/",
-		version: "v2.07",
+		version: "v2.07.1",
 		author: "Andrius Jasiulionis <automatikas@gmail.com>",
 		copyright: "Copyright (c) 2017, Andrius Jasiulionis",
 		license: "MIT",
@@ -28,7 +28,7 @@ var AlarmDbSettings = {
 				}
 			},
 			headers: {
-				//auth_key: "Hg5uztdwmBjyoF5a"
+				auth_key: ""
 			}
 		},
 		ui: {
@@ -47,7 +47,7 @@ var AlarmDbSettings = {
 				},
 				periodicUpdate: {
 					enabled: true,
-					title: "Refresh alarm list periodicaly"
+					title: "Refresh alarm list periodically"
 				},
 				pagination: {
 					enabled: true,
@@ -167,7 +167,6 @@ $(AlarmDbSettings.ui.loadContainer.divId).ready(function () {
 	
 	$(AlarmDbSettings.ui.loadContainer.divId).on("click", "#controls_refresh", function(e) {
 		e.preventDefault();
-		search_table("");
 		getDbAlarms();
     });
 	
@@ -181,7 +180,7 @@ $(AlarmDbSettings.ui.loadContainer.divId).ready(function () {
 			} else {
 				$(this).addClass("active");
 				interId = setInterval(function() {
-					 getDbAlarms();
+					getDbAlarms();
 				}, 60000);        
 			}
 		};
@@ -226,7 +225,13 @@ $(AlarmDbSettings.ui.loadContainer.divId).ready(function () {
 	
 	$(AlarmDbSettings.ui.loadContainer.divId).on("click", "#active_alarm_tab", function(e) {
 		e.preventDefault();
-		search_table("");
+		if(AlarmDbSettings.internals.search_active === true) {
+			search_table("");
+		} 
+		pushTableAlert("hide", "");
+		if (AlarmDbSettings.internals.display_active_rows == 0) {
+			pushTableAlert("info", "No active alarms found...");
+		}
 		$("#alarm_list").html("");
 		$("#alarm_list").append(AlarmDbSettings.internals.active_content);
 		updateTableColumns();
@@ -239,7 +244,10 @@ $(AlarmDbSettings.ui.loadContainer.divId).ready(function () {
 	
 	$(AlarmDbSettings.ui.loadContainer.divId).on("click", "#alarm_log_tab", function(e) {
 		e.preventDefault();
-		search_table("");
+		if(AlarmDbSettings.internals.search_active === true) {
+			search_table("");
+		}
+		pushTableAlert("hide", "");
 		$("#alarm_list").html( "" );
 		$("#alarm_list").append(AlarmDbSettings.internals.log_content);
 		updateTableColumns();
@@ -477,18 +485,32 @@ function getDbAlarms() {
 			});
 			AlarmDbSettings.internals.display_active_rows = r1;
 			AlarmDbSettings.internals.active_page = 1;
-			$(".nav-tabs").find('li').removeClass("active");
-			$('#active_alarm_tab').addClass("active");
-			$("#alarm_list").html( "" );
-			$("#alarm_list").append(AlarmDbSettings.internals.active_content);
-			updateTableColumns();
-			AlarmDbSettings.internals.display_rows = AlarmDbSettings.internals.display_active_rows;
-			updatePaginationInfo(AlarmDbSettings.internals.display_rows, AlarmDbSettings.internals.page_size, AlarmDbSettings.internals.active_page);
-			updatePagination(AlarmDbSettings.internals.display_rows, AlarmDbSettings.internals.page_size);
-			updateActiveTableRowList(AlarmDbSettings.internals.page_size, AlarmDbSettings.internals.active_page);
 			if (AlarmDbSettings.internals.display_active_rows > 0) {
 				alarmIconRingStyle(true);
-				$("#active_alarm_tab").addClass("active");
+			}
+			if(AlarmDbSettings.internals.search_active === true) {
+				if ($("#active_alarm_tab").hasClass("active")) {
+					$(".nav-tabs").find('li').removeClass("active");
+					$('#active_alarm_tab').addClass("active");
+					$("#alarm_list").html( "" );
+					$("#alarm_list").append(AlarmDbSettings.internals.active_content);
+					updateTableColumns();
+					AlarmDbSettings.internals.display_rows = AlarmDbSettings.internals.display_active_rows;
+					updatePaginationInfo(AlarmDbSettings.internals.display_rows, AlarmDbSettings.internals.page_size, AlarmDbSettings.internals.active_page);
+					updatePagination(AlarmDbSettings.internals.display_rows, AlarmDbSettings.internals.page_size);
+					updateActiveTableRowList(AlarmDbSettings.internals.page_size, AlarmDbSettings.internals.active_page);
+				}
+			} else {
+				$(".nav-tabs").find('li').removeClass("active");
+				$('#active_alarm_tab').addClass("active");
+				$("#alarm_list").html( "" );
+				$("#alarm_list").append(AlarmDbSettings.internals.active_content);
+				pushTableAlert("hide", "");
+				updateTableColumns();
+				AlarmDbSettings.internals.display_rows = AlarmDbSettings.internals.display_active_rows;
+				updatePaginationInfo(AlarmDbSettings.internals.display_rows, AlarmDbSettings.internals.page_size, AlarmDbSettings.internals.active_page);
+				updatePagination(AlarmDbSettings.internals.display_rows, AlarmDbSettings.internals.page_size);
+				updateActiveTableRowList(AlarmDbSettings.internals.page_size, AlarmDbSettings.internals.active_page);
 			}
 		} else {
 			AlarmDbSettings.internals.active_content = "";
@@ -508,6 +530,7 @@ function getDbAlarms() {
 			if ($("#alarm_log_tab").hasClass("active")) {
 				$("#alarm_list").html( "" );
 				$("#alarm_list").append(AlarmDbSettings.internals.log_content);
+				pushTableAlert("hide", "");
 				updateTableColumns();
 				AlarmDbSettings.internals.display_rows = AlarmDbSettings.internals.display_log_rows;
 				updatePaginationInfo(AlarmDbSettings.internals.display_rows, AlarmDbSettings.internals.page_size, AlarmDbSettings.internals.active_page);
@@ -522,7 +545,10 @@ function getDbAlarms() {
 			AlarmDbSettings.internals.display_rows = 0;
 			updatePaginationInfo(AlarmDbSettings.internals.display_rows, AlarmDbSettings.internals.page_size, AlarmDbSettings.internals.active_page);
 			updatePagination(AlarmDbSettings.internals.display_rows, AlarmDbSettings.internals.page_size);
-		}		
+		}
+		if(AlarmDbSettings.internals.search_active === true) {
+			search_table($("#search").val());
+		}
 		if (data.warning) {
 			if (data.ids) {
 				pushTableAlert("warning", data.warning+" IDs:"+data.ids);
@@ -541,7 +567,7 @@ function getDbAlarms() {
     })
 	.fail(function(data, textStatus, xhr) {
 		if (data.status == "0") {
-			pushTableAlert("danger", textStatus+": Could not establish conection to API");
+			pushTableAlert("danger", textStatus+": Could not establish connection to API");
 		} else {
 			if (data.status == "401") {
 				pushTableAlert("danger", textStatus+": "+data.status+"-"+xhr);
@@ -564,20 +590,18 @@ function acknAlarms(ids,user){
 			"id": ids
 		};
 	var headers = $.extend( true, apiComands, AlarmDbSettings.api.headers);
-//FG32 does not support put or delete functions. Switched to post instead	
-	$.post(alarmAPI, headers) 
-	//$.put(alarmAPI, headers)
+	$.post(alarmAPI, headers)
 		.done(function(data) {
 				if (typeof(data.alarms) != "undefined") {
 					var $log_content = $("<div />",{html:AlarmDbSettings.internals.log_content});
 					var $active_content = $("<div />",{html:AlarmDbSettings.internals.active_content});
 					$.each( data.alarms, function( i, alarm ) {
 						if ($("#active_alarm_tab").hasClass("active")) {
-							$("#alarm_list").find("#"+alarm.id).remove();
-							AlarmDbSettings.internals.display_active_rows -= 1;
+							$("#alarm_list").find("#"+alarm.id).remove(); // After ackn alarm remove from active tab.
 							AlarmDbSettings.internals.display_rows -= 1;
 							AlarmDbSettings.internals.active_content = $("#alarm_list").html();
 						}
+						AlarmDbSettings.internals.display_active_rows -= 1;
 						row = $("#alarm_list").find("#"+alarm.id);
 						updateRowAckn(row,alarm);
 						row = $log_content.find("#"+alarm.id);
@@ -594,7 +618,9 @@ function acknAlarms(ids,user){
 				}
 				if (AlarmDbSettings.internals.display_active_rows == 0) {
 					AlarmDbSettings.internals.active_content = "";
-					pushTableAlert("info", "No active alarms found...");
+					if ($("#active_alarm_tab").hasClass("active")) {
+						pushTableAlert("info", "No active alarms found...");
+					}
 					alarmIconRingStyle(false);
 				}
 				updatePaginationInfo(AlarmDbSettings.internals.display_rows, AlarmDbSettings.internals.page_size, AlarmDbSettings.internals.active_page);
@@ -643,9 +669,7 @@ function delAlarms(ids){
 		"id": ids
 	};
 	var headers = $.extend( true, apiComands, AlarmDbSettings.api.headers);
-//FG32 does not support put or delete functions. Switched to post instead	
-	$.post(alarmAPI, headers) 
-	//$.delete(alarmAPI, headers)
+	$.post(alarmAPI, headers)
 		.done(function( data ) {
 			if (data.success) {
 				$.each( ids_array, function( i, id ) {
@@ -1020,16 +1044,37 @@ function updateTableColumns() {
 }
 
 function search_table(searchTerm) {
-	if($("#search_btn").find(".glyphicon").hasClass("glyphicon-search") || searchTerm == "") {
-		searchTerm = "";
-		$("#search").val("");
-		$("#search_btn").find(".glyphicon").removeClass("glyphicon-remove").addClass("glyphicon-search");
-	}
 	if(AlarmDbSettings.internals.search_active !== true) {
 		AlarmDbSettings.internals.search_active = true;
 		b_display_rows = AlarmDbSettings.internals.display_rows;
 		b_display_log_rows = AlarmDbSettings.internals.display_log_rows;
 		b_display_active_rows = AlarmDbSettings.internals.display_active_rows;
+	}
+	if($("#search_btn").find(".glyphicon").hasClass("glyphicon-search") || searchTerm == "") {
+		searchTerm = "";
+		$("#search").val("");
+		$("#search_btn").find(".glyphicon").removeClass("glyphicon-remove").addClass("glyphicon-search");
+		pushTableAlert("hide", "");
+		AlarmDbSettings.internals.search_active = false;
+		if ($("#active_alarm_tab").hasClass("active")) {
+			$("#alarm_list").html("");
+			$("#alarm_list").html(AlarmDbSettings.internals.active_content);
+			AlarmDbSettings.internals.display_active_rows = b_display_active_rows;
+			AlarmDbSettings.internals.display_rows = AlarmDbSettings.internals.display_active_rows;
+			updatePaginationInfo(AlarmDbSettings.internals.display_rows, AlarmDbSettings.internals.page_size, AlarmDbSettings.internals.active_page);
+			updatePagination(AlarmDbSettings.internals.display_rows, AlarmDbSettings.internals.page_size);
+			updateActiveTableRowList(AlarmDbSettings.internals.page_size, AlarmDbSettings.internals.active_page)
+		}
+		if ($("#alarm_log_tab").hasClass("active")) {
+			$("#alarm_list").html("");
+			$("#alarm_list").html(AlarmDbSettings.internals.log_content);
+			AlarmDbSettings.internals.display_log_rows = b_display_log_rows;
+			AlarmDbSettings.internals.display_rows = AlarmDbSettings.internals.display_log_rows;
+			updatePaginationInfo(AlarmDbSettings.internals.display_rows, AlarmDbSettings.internals.page_size, AlarmDbSettings.internals.active_page);
+			updatePagination(AlarmDbSettings.internals.display_rows, AlarmDbSettings.internals.page_size);
+			updateLogTableRowList(AlarmDbSettings.internals.page_size, AlarmDbSettings.internals.active_page);
+		}
+		return;
 	}
 	var listItem = $('.searchable').children('tr');
 	var searchSplit = searchTerm.replace(/ /g, "'):contains('");
@@ -1089,28 +1134,6 @@ function search_table(searchTerm) {
 			updateActiveTableRowList(AlarmDbSettings.internals.page_size, AlarmDbSettings.internals.active_page)
 		}
 		if ($("#alarm_log_tab").hasClass("active")) {
-			updateLogTableRowList(AlarmDbSettings.internals.page_size, AlarmDbSettings.internals.active_page);
-		}
-	}
-	if (searchTerm == "") {
-		pushTableAlert("hide", "");
-		AlarmDbSettings.internals.search_active = false;
-		if ($("#active_alarm_tab").hasClass("active")) {
-			$("#alarm_list").html("");
-			$("#alarm_list").html(AlarmDbSettings.internals.active_content);
-			AlarmDbSettings.internals.display_active_rows = b_display_active_rows;
-			AlarmDbSettings.internals.display_rows = AlarmDbSettings.internals.display_active_rows;
-			updatePaginationInfo(AlarmDbSettings.internals.display_rows, AlarmDbSettings.internals.page_size, AlarmDbSettings.internals.active_page);
-			updatePagination(AlarmDbSettings.internals.display_rows, AlarmDbSettings.internals.page_size);
-			updateActiveTableRowList(AlarmDbSettings.internals.page_size, AlarmDbSettings.internals.active_page)
-		}
-		if ($("#alarm_log_tab").hasClass("active")) {
-			$("#alarm_list").html("");
-			$("#alarm_list").html(AlarmDbSettings.internals.log_content);
-			AlarmDbSettings.internals.display_log_rows = b_display_log_rows;
-			AlarmDbSettings.internals.display_rows = AlarmDbSettings.internals.display_log_rows;
-			updatePaginationInfo(AlarmDbSettings.internals.display_rows, AlarmDbSettings.internals.page_size, AlarmDbSettings.internals.active_page);
-			updatePagination(AlarmDbSettings.internals.display_rows, AlarmDbSettings.internals.page_size);
 			updateLogTableRowList(AlarmDbSettings.internals.page_size, AlarmDbSettings.internals.active_page);
 		}
 	}
@@ -1373,8 +1396,44 @@ function export_file(type) {
 			ids += ","+$(this).attr("id");
 		}
 	});
-	var alarmAPI = AlarmDbSettings.api.location+"?www-command=alarmdb-get&id="+ids+"&format="+type+"&file&auth_key="+AlarmDbSettings.api.headers.auth_key;
-	window.open(alarmAPI);
+	var newWindow = window.open('');
+	var alarmAPI = AlarmDbSettings.api.location;
+	var apiComands = {
+			"www-command": "alarmdb-get",
+			"format": type,
+			"id": ids,
+			"file":""
+		};
+	var headers = $.extend( true, apiComands, AlarmDbSettings.api.headers);
+	refreshButtonLoadingStyle(true);
+	$.post(alarmAPI, headers)
+	.done(function(data) {
+		if (typeof(data.export) != "undefined") {
+			newWindow.location = data.href;
+		}
+		if (data.warning) {
+			pushTableAlert("warning", data.warning);
+		}
+		if (data.error) {
+			pushTableAlert("danger", data.error);
+		}
+		if (data.info) {
+			pushTableAlert("info", data.info);
+		}
+		refreshButtonLoadingStyle(false);
+		return true;
+	})
+	.fail(function(data, textStatus, xhr) {
+		if (data.status == "401") {
+			validateLogin(data.login);
+		}
+		pushTableAlert("danger", textStatus+": "+data.status+"-"+xhr);
+		refreshButtonLoadingStyle(false);
+		return false;
+	})
+	
+	
+	
 }
 
 jQuery.each( [ "put", "delete" ], function( i, method ) {
@@ -1550,8 +1609,7 @@ function loadAlarmDB(){
 }
 
 function validateSettings(newSettings){
-	//Merge new settings
-	//NEED some validation?
+	//NEED some validation for future releases before merging settings
 	if(getCookies("alarmdb_user_settings")) {
 		var cookie_user_settings = JSON.parse(getCookies("alarmdb_user_settings"));
 		AlarmDbSettings = $.extend(true, AlarmDbSettings, cookie_user_settings);

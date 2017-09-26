@@ -1,13 +1,14 @@
 <?php
-/**
+/*
  * AlarmDB <https://github.com/automatikas/AlarmDB>
- * AlarmDB API for EasyIO FG series
+ * AlarmDB for EasyIO FG and FS controllers:: API
  *
  * @author     Andrius Jasiulionis <automatikas@gmail.com>
  * @copyright  Copyright (c) 2017, Andrius Jasiulionis
  * @license    MIT
- * @version    1.01
+ * @version    2.07
  */
+ 
 	//ini_set('display_errors',1); error_reporting(E_ALL);
 
 	include_once 'base_controller.php';
@@ -15,7 +16,7 @@
 	include_once 'alarmdb_model.php';
 	
 	date_default_timezone_set('UTC');
-	// this one will be an issue later need better timezone handling!
+	// this one will be an issue later, need better time-zone handling for future release!
 	
 	$a = array();
 	$a = new stdClass();
