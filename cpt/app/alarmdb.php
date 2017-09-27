@@ -6,7 +6,7 @@
  * @author     Andrius Jasiulionis <automatikas@gmail.com>
  * @copyright  Copyright (c) 2017, Andrius Jasiulionis
  * @license    MIT
- * @version    2.07
+ * @version    2.07.1
  */
 
 //ini_set('display_errors',1); error_reporting(E_ALL);
@@ -52,6 +52,7 @@ $u = $controller->curUser();
 		<script type="text/javascript">
 			$(document).ready(function () {
 				//Set-up AlarmDB before render it to web-page
+				AlarmDbSettings.href = "https://github.com/automatikas/AlarmDB-EasyIO/releases/tag/"; //Link to AlarmDB-EasyIO github branch.
 				AlarmDbSettings.api.location = "../app/alarmdb_exporter.php"; 		// Link to DB connector
 				AlarmDbSettings.api.headers.auth_key = ""; 							// EasyIO FG/FS auth_key to access alarmdb_exporter.php without login. Not needed within same host
 				AlarmDbSettings.ui.loadContainer.divId = "#myAlarmContainer";		// HTLM DIV ID where to render AlarmDb
