@@ -6,9 +6,10 @@
  * @author     Andrius Jasiulionis <automatikas@gmail.com>
  * @copyright  Copyright (c) 2017, Andrius Jasiulionis
  * @license    MIT
- * @version    2.07
+ * @version    2.07.1
  */
  
+//ini_set('display_errors',1); error_reporting(E_ALL); 
 class UI_model {
 	
 	public $id=0;
@@ -282,11 +283,11 @@ class UI_model {
 			$wrongIdArray = array();
 			foreach($deleteIdArray as $value){	
 				$stmt = $db->prepare('DELETE FROM alarms WHERE id=:value');
-				$stmt ->bindValue(':value', $value, SQLITE3_TEXT);
+				$stmt ->bindValue(':value', $value);
 				$stmt->execute();
 				
 				$stmt = $db->prepare('DELETE FROM notes WHERE alarm_id=:value');
-				$stmt ->bindValue(':value', $value, SQLITE3_TEXT);
+				$stmt ->bindValue(':value', $value);
 				$stmt->execute();
 			}
 			if (count($wrongIdArray) > 0) {
