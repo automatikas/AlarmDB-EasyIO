@@ -1,17 +1,7 @@
-/*
- * AlarmDB <https://github.com/automatikas/AlarmDB>
- * AlarmDB JS 
- *
- * @author     Andrius Jasiulionis <automatikas@gmail.com>
- * @copyright  Copyright (c) 2017, Andrius Jasiulionis
- * @license    MIT
- * @version    2.07.1
-*/
- 
 var AlarmDbSettings = {
 		title: "AlarmDB API UI core",
 		href: "https://github.com/automatikas/AlarmDB/releases/tag/",
-		version: "v2.07.1",
+		version: "v2.07.2",
 		author: "Andrius Jasiulionis <automatikas@gmail.com>",
 		copyright: "Copyright (c) 2017, Andrius Jasiulionis",
 		license: "MIT",
@@ -115,23 +105,23 @@ var AlarmDbSettings = {
 				priorityRanges: {
 					danger: {
 						min: 0,
-						max: 70
+						max: 50
 					},
 					warning: {
-						min: 71,
-						max: 140
+						min: 51,
+						max: 100
 					},
 					info: {
-						min: 141,
+						min: 101,
+						max: 150
+					},
+					primary: {
+						min: 151,
 						max: 200
 					},
 					success: {
 						min: 201,
-						max: 255
-					},
-					default: {
-						min: 256,
-						max: 300
+						max: 250
 					}
 				}
 			},
@@ -149,6 +139,11 @@ var AlarmDbSettings = {
 			},
 			user: {
 				name: "User"
+			},
+			footer: {
+				totals: {
+					title: "DB total:"
+				}
 			}
 		},
 		internals: {
@@ -562,6 +557,9 @@ function getDbAlarms() {
 		if (data.info) {
 			pushTableAlert("info", data.info);
 		}
+		if (typeof(data.totals) != "undefined") {
+			updatePaginationTotal(data.totals.active,data.totals.ackn,data.totals.notes);	
+		}
 		refreshButtonLoadingStyle(false);
 		return true;
     })
@@ -597,7 +595,7 @@ function acknAlarms(ids,user){
 					var $active_content = $("<div />",{html:AlarmDbSettings.internals.active_content});
 					$.each( data.alarms, function( i, alarm ) {
 						if ($("#active_alarm_tab").hasClass("active")) {
-							$("#alarm_list").find("#"+alarm.id).remove(); // After ackn alarm remove from active tab.
+							$("#alarm_list").find("#"+alarm.id).remove();
 							AlarmDbSettings.internals.display_rows -= 1;
 							AlarmDbSettings.internals.active_content = $("#alarm_list").html();
 						}
@@ -643,6 +641,9 @@ function acknAlarms(ids,user){
 			}
 			if (data.info) {
 				pushTableAlert("info", data.info);
+			}
+			if (typeof(data.totals) != "undefined") {
+				updatePaginationTotal(data.totals.active,data.totals.ackn,data.totals.notes);	
 			}
 			refreshButtonLoadingStyle(false);
 			return true;
@@ -718,6 +719,9 @@ function delAlarms(ids){
 			if (data.info) {
 				pushTableAlert("info", data.info);
 			}
+			if (typeof(data.totals) != "undefined") {
+				updatePaginationTotal(data.totals.active,data.totals.ackn,data.totals.notes);	
+			}
 			refreshButtonLoadingStyle(false);
 			return true;
 		})
@@ -752,16 +756,15 @@ function getNotes(id){
 				}
 			})	
 		}
-		// need cleaning
 		if (data.warning) {
 			if (data.ids) {
-				$("#alarm_list").find("#"+id).find(".notes-panel ul").append("<li><pclass=\"bg-warning\">"+data.warning+" IDs:"+data.ids+"</p></li>");
+				$("#alarm_list").find("#"+id).find(".notes-panel ul").append(`<li><pclass="bg-warning">`+data.warning+` IDs:`+data.ids+`</p></li>`);
 			} else {
-				$("#alarm_list").find("#"+id).find(".notes-panel ul").append("<li><pclass=\"bg-warning\">"+data.warning);
+				$("#alarm_list").find("#"+id).find(".notes-panel ul").append(`<li><pclass="bg-warning">`+data.warning);
 			}
 		}
 		if (data.error) {
-			$("#alarm_list").find("#"+id).find(".notes-panel ul").append("<li><pclass=\"bg-danger\">"+data.error+"</p></li>");
+			$("#alarm_list").find("#"+id).find(".notes-panel ul").append(`<li><pclass="bg-danger">`+data.error+`</p></li>`);
 		}
 		if (data.info) {
 		}
@@ -810,15 +813,18 @@ function addNotes(id,user,text) {
 		}
 		if (data.warning) {
 			if (data.ids) {
-				$("#alarm_list").find("#"+id).find(".notes-panel ul").append("<li><pclass=\"bg-warning\">"+data.warning+" IDs:"+data.ids+"</p></li>");
+				$("#alarm_list").find("#"+id).find(".notes-panel ul").append(`<li><pclass="bg-warning">`+data.warning+` IDs:`+data.ids+`</p></li>`);
 			} else {
-				$("#alarm_list").find("#"+id).find(".notes-panel ul").append("<li><pclass=\"bg-warning\">"+data.warning);
+				$("#alarm_list").find("#"+id).find(".notes-panel ul").append(`<li><pclass="bg-warning">`+data.warning);
 			}
 		}
 		if (data.error) {
-			$("#alarm_list").find("#"+id).find(".notes-panel ul").append("<li><pclass=\"bg-danger\">"+data.error+"</p></li>");
+			$("#alarm_list").find("#"+id).find(".notes-panel ul").append(`<li><pclass="bg-danger">"+data.error+"</p></li>`);
 		}
 		if (data.info) {
+		}
+		if (typeof(data.totals) != "undefined") {
+			updatePaginationTotal(data.totals.active,data.totals.ackn,data.totals.notes);	
 		}
 		refreshButtonLoadingStyle(false);
 		return true;
@@ -849,17 +855,17 @@ function updatePagination(display_rows, page_size) {
 		f_pages += 1;
 	}
 	if (display_rows > page_size) {
-		pagination_content += "<li class=\"page-pre-disabled disabled\"><a href=\"#\">‹</a></li>";
-		pagination_content += "<li class=\"page-first-separator disabled hide\"><a href=\"#\">...</a></li>";
+		pagination_content += `<li class="page-pre-disabled disabled"><a href="#">‹</a></li>`;
+		pagination_content += `<li class="page-first-separator disabled hide"><a href="#">...</a></li>`;
 		for (i = 0; i < f_pages; i++) {
 			if (p_numbers == 1) {
-			pagination_content += "<li class=\"page-number active\"><a href=\"#\">"+p_numbers+"</a></li>";
+			pagination_content += `<li class="page-number active"><a href="#">`+p_numbers+`</a></li>`;
 			} else {
 				if (i < display_rows) {
 					if (p_numbers <= page_limit) {
-						pagination_content += "<li class=\"page-number\"><a href=\"#\">"+p_numbers+"</a></li>";
+						pagination_content += `<li class="page-number"><a href="#">`+p_numbers+`</a></li>`;
 					} else {
-						pagination_content += "<li class=\"page-number hide\"><a href=\"#\">"+p_numbers+"</a></li>";
+						pagination_content += `<li class="page-number hide"><a href="#">`+p_numbers+`</a></li>`;
 					}
 				}
 			}
@@ -867,12 +873,15 @@ function updatePagination(display_rows, page_size) {
 		}
 		p_numbers--;
 		if (p_numbers > page_limit) {
-			pagination_content += "<li class=\"page-last-separator disabled\"><a href=\"#\">...</a></li>";
+			pagination_content += `<li class="page-last-separator disabled"><a href="#">...</a></li>`;
 		} else {
-			pagination_content += "<li class=\"page-last-separator disabled hide\"><a href=\"#\">...</a></li>";
+			pagination_content += `<li class="page-last-separator disabled hide"><a href="#">...</a></li>`;
 		}			
-		pagination_content += "<li class=\"page-next-active\"><a href=\"#\">›</a></li>";
-	}
+		pagination_content += `<li class="page-next-active"><a href="#">›</a></li>`;
+		$("#pagination-list").parent().removeClass("hide");
+		} else {
+			$("#pagination-list").parent().addClass("hide");
+		}
 	$("#pagination-list").html( "" );
 	$("#pagination-list").append(pagination_content);
 	return true;
@@ -936,17 +945,17 @@ function updatePaginationInfo(display_rows, page_size, active_page) {
 			page_size = parseInt(page_size);
 			display_from = active_page * page_size;
 			display_from = display_from - page_size + 1;
-			display_from = display_from + " to "
+			display_from = display_from + "-"
 			display_to = active_page * page_size;
 			if (display_to > display_rows) {
 				display_to = display_rows;
 			}	
 		}
-		info_text = "Showing " + display_from + display_to + " of " + display_rows + " alarms";
+		info_text = "Showing " + display_from + display_to + " of " + display_rows + " records";
 		if (display_rows == 0) {
 				info_text = "";
 		}
-		$(".pagination-info").text(info_text);
+		$(".pagination-info span").text(info_text);
 		return true;
 }
 
@@ -995,14 +1004,14 @@ function updateRowAckn(row,alarm) {
 	row.attr("ackn_user",alarm.ackn_user);
 	row.attr("adate",alarm.adate);
 	if (row.find(".ackn_user").length == 0) {
-		row.find(".alarm_text").append("<p class=\"ackn_user\"><small><i>"+alarm.ackn_user+"</small></i></p>");
+		row.find(".alarm_text").append(`<p class="ackn_user"><small><i>`+alarm.ackn_user+`</small></i></p>`);
 	} else {
-		row.find(".ackn_user").html("<small><i>"+alarm.ackn_user+"</small></i>");
+		row.find(".ackn_user").html(`<small><i>`+alarm.ackn_user+`</small></i>`);
 	}
 	if (row.find(".adate").length == 0) {
-		row.find(".dates").append("<p class=\"adate\"><span class=\"glyphicon glyphicon-ok-sign\" aria-hidden=\"true\" style=\"color: #8BC34A; padding-right: 5px;\"></span><small><i>"+alarm.adate+"</small></i></p>");
+		row.find(".dates").append(`<p class="adate"><span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span><small><i>`+alarm.adate+`</small></i></p>`);
 	} else {
-		row.find(".adate").html("<span class=\"glyphicon glyphicon-ok-sign\" aria-hidden=\"true\" style=\"color: #8BC34A; padding-right: 5px;\"></span><small><i>"+alarm.adate+"</small></i>");
+		row.find(".adate").html(`<span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span><small><i>`+alarm.adate+`</small></i>`);
 	}
 	row.find(".alarm_b_ackn").removeClass("alarm_b_ackn").addClass("alarm_b_ackn_disabled disabled");
 	row.find(".alarm_b_delete_disabled").removeClass("alarm_b_delete_disabled disabled").addClass("alarm_b_delete");
@@ -1166,7 +1175,7 @@ function alarmIconRingStyle(animate_icon) {
 }
 
 function pushTableAlert(style, msg) {
-	var msg = "<td colspan=\"6\"><i class=\"glyphicon glyphicon-info-sign\"></i> "+msg+"</td>";
+	var msg = `<td colspan="6"><i class="glyphicon glyphicon-info-sign"></i> `+msg+`</td>`;
 	if (style == "hide") {
 		$("#alarm_line").html("");
 		$("#alarm_line").hide();
@@ -1182,33 +1191,31 @@ function pushTableAlert(style, msg) {
 
 function alarmHtmlRender(alarm) {
 	var content = "";
-	var alarm_class = "";
+	var alarm_class = "default";
 
 	if (alarm.priority >= AlarmDbSettings.ui.table.priorityRanges.danger.min && alarm.priority <= AlarmDbSettings.ui.table.priorityRanges.danger.max) {
 		alarm_class = "danger";
-	}
-	if (alarm.priority >= AlarmDbSettings.ui.table.priorityRanges.warning.min && alarm.priority <= AlarmDbSettings.ui.table.priorityRanges.warning.max ) {
-		alarm_class = "warning";
+	} else {
+		if (alarm.priority >= AlarmDbSettings.ui.table.priorityRanges.warning.min && alarm.priority <= AlarmDbSettings.ui.table.priorityRanges.warning.max ) {
+			alarm_class = "warning";
+		} else {
+			if (alarm.priority >= AlarmDbSettings.ui.table.priorityRanges.primary.min && alarm.priority <= AlarmDbSettings.ui.table.priorityRanges.primary.max ) {
+				alarm_class = "primary";
+			} else {
+				if (alarm.priority >= AlarmDbSettings.ui.table.priorityRanges.info.min && alarm.priority <= AlarmDbSettings.ui.table.priorityRanges.info.max ) {
+					alarm_class = "info";
+				} else {
+					if (alarm.priority >= AlarmDbSettings.ui.table.priorityRanges.success.min && alarm.priority <= AlarmDbSettings.ui.table.priorityRanges.success.max ) {
+						alarm_class = "success";
+					}
+				}
+			}
 		}
-	if (alarm.priority >= AlarmDbSettings.ui.table.priorityRanges.info.min && alarm.priority <= AlarmDbSettings.ui.table.priorityRanges.info.max ) {
-		alarm_class = "info";
-		}
-	if (alarm.priority >= AlarmDbSettings.ui.table.priorityRanges.success.min && alarm.priority <= AlarmDbSettings.ui.table.priorityRanges.success.max ) {
-		alarm_class = "success";
 	}
-	if (alarm.priority >= AlarmDbSettings.ui.table.priorityRanges.default.min && alarm.priority <= AlarmDbSettings.ui.table.priorityRanges.default.max ) {
-		alarm_class = "default";
-	}
-	var attr = "";
-	if(typeof(alarm.attr) != "undefined"){
-		$.each(alarm.attr, function(index, value) {
-			attr += index+'="'+value+'" ';
-		});
-	}
-						
-	content += "<tr id=\""+alarm.id+"\" class=\"alarmrow\" tags=\""+alarm.tags+"\" priority=\""+alarm.priority+"\" ackn_user=\""+alarm.ackn_user+"\" ackn=\""+alarm.ackn+"\" adate=\""+alarm.adate+"\" "+attr+"\">";
-	content += "<td class=\"col1\"><span class=\"glyphicon glyphicon-unchecked select_f\" aria-hidden=\"true\" style=\"color: #555; padding-right: 5px;\"></span>";
-	content += "<span class=\"label label-"+alarm_class+" tags\">"+alarm.priority+"</span></td>";	
+	
+	content += `<tr id="`+alarm.id+`" class="alarmrow" ackn_user="`+alarm.ackn_user+`" ackn="`+alarm.ackn+`" adate="`+alarm.adate+`">
+					<td class="col1"><span class="glyphicon glyphicon-unchecked select_f" aria-hidden="true"></span>
+					<span class="label label-`+alarm_class+` tags">`+alarm.priority+`</span></td>`;	
 	var ackn = "";
 	var ackn_user = "";
 	var ackn_b_style = "alarm_b_ackn";
@@ -1216,76 +1223,74 @@ function alarmHtmlRender(alarm) {
 	if (alarm.ackn == "true" && alarm.ackn != null && alarm.adate != null) {
 		ackn_b_style = "alarm_b_ackn_disabled disabled";
 		alarm_b_style = "alarm_b_delete";
-		ackn = "<p class=\"adate\"><span class=\"glyphicon glyphicon-ok-sign\" aria-hidden=\"true\" style=\"color: #8BC34A; padding-right: 5px;\"></span><small><i>"+alarm.adate+"</i></small></p>";
+		ackn = `<p class="adate"><span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span><small><i>`+alarm.adate+`</i></small></p>`;
 		if (ackn_user != null) {
-			ackn_user = "<p class=\"ackn_user\"><small><i>"+alarm.ackn_user+"</i></small></p>";
+			ackn_user = `<p class="ackn_user"><small><i>`+alarm.ackn_user+`</i></small></p>`;
 		}
 	}
-	content += "<td class=\"dates col2\"><p class=\"alarm_date\"><span class=\"glyphicon glyphicon glyphicon-bell\" aria-hidden=\"true\" style=\"color: #FFC107; padding-right: 5px;\"></span><small>"+alarm.date+"</small></p>"+ackn+"</td>";
-	content += "<td class=\"col3\">";
+	content += `<td class="dates col2"><p class="alarm_date"><span class="glyphicon glyphicon glyphicon-bell" aria-hidden="true"></span><small>`+alarm.date+`</small></p>`+ackn+`</td>`;
+	content += `<td class="col3">`;
 	var values = alarm.value.split(',');
 	$.each(values, function(index, value) {
-		content += '<span class=\"label label-'+alarm_class+'\ tags">'+value+'</span>';
+		content += `<span class="label label-`+alarm_class+` tags">`+value+`</span>`;
 	});
-	content += "</td>";
-	
+	content += `</td>`;
 	var attachment = "";
-
-	content += "<td class=\"alarm_text col4\"><p class=\"text\">"+alarm.text+" "+attachment+"</p>"+ackn_user+"</td>";
-	content += "<td class=\"col5\">";
+	content += `<td class="alarm_text col4"><p class="text">`+alarm.text+` `+attachment+`</p>`+ackn_user+`</td>
+				<td class="col5">`;
 	var tags = alarm.tags.split(',');
 	$.each(tags, function(index, value) {
-		content += "<span class=\"label label-info tags\">"+value+"</span>";
+		content += `<span class="label label-info tags">`+value+`</span>`;
 	});
-	content += "</td>";
-	content += "<td class=\"col6\"><div class=\"btn-group\" role=\"group\" aria-label=\"action\">";
-	content += "	<button type=\"button\" class=\"controls btn btn-default "+ackn_b_style+"\"><span class=\"glyphicon glyphicon-ok-sign\" aria-hidden=\"true\" style=\"color: #8BC34A;\"></span></button>";
-	content += "	<button type=\"button\" class=\"controls btn btn-default "+alarm_b_style+"\"><span class=\"glyphicon glyphicon-trash\" aria-hidden=\"true\" style=\"color: #555;\"></span></button>";
+	content += `</td>
+				<td class="col6"><div class="btn-group" role="group" aria-label="action">
+					<button type="button" class="controls btn btn-default `+ackn_b_style+`"><span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span></button>
+					<button type="button" class="controls btn btn-default `+alarm_b_style+`"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>`;
 	if (alarm.notes != null) {
 		notes_b_style = "active_icon";
 	} else {
 		notes_b_style = "disabled_icon";
 	}
-	content += "	<button type=\"button\" class=\"btn btn-default alarm_b_notes\" aria-haspopup=\"true\" aria-expanded=\"false\"><span class=\"glyphicon glyphicon-comment "+notes_b_style+"\" aria-hidden=\"true\"></span></button>";
-	content += "</div>";
-	content += "<div class=\"notes-panel panel-default hide\">";
-	content += "	<div class=\"notes-panel-heading\">";
-    content += "		<div class=\"btn-group\">";
-	content += "			<span class=\"glyphicon glyphicon-remove note-close\" aria-hidden=\"true\"></span>";
-    content += "		</div>";
-    content += "	</div>";
-    content += "	<div class=\"notes-panel-body\">";
-    content += "		<ul class=\"notes\">";			
-	content += "		</ul>";
-    content += "	</div>";
-    content += "	<div class=\"panel-footer\">";
-    content += "		<div class=\"input-group\">";
-    content += "			<input id=\"btn-input\" type=\"text\" class=\"form-control input-sm\" placeholder=\"Type your message here...\">";
-    content += "			<span class=\"input-group-btn\">";
-    content += "				<button class=\"btn btn-warning btn-sm\" id=\"btn-notes\">Send</button>";
-    content += "			</span>";
-    content += "		</div>";
-    content += "	</div>";
-	content += "</div>";
-	content += "</td>";
-	content += "</tr>";
+	content += `	<button type="button" class="btn btn-default alarm_b_notes" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-comment `+notes_b_style+` aria-hidden="true"></span></button>
+				</div>
+				<div class="notes-panel panel-default hide">
+					<div class="notes-panel-heading">
+						<div class="btn-group">
+							<span class="glyphicon glyphicon-remove note-close" aria-hidden="true"></span>
+						</div>
+					</div>
+					<div class="notes-panel-body">
+						<ul class="notes"></ul>
+					</div>
+					<div class="panel-footer">
+						<div class="input-group">
+							<input id="btn-input" type="text" class="form-control input-sm" placeholder="Type your message here...">
+							<span class="input-group-btn">
+								<button class="btn btn-warning btn-sm" id="btn-notes">Send</button>
+							</span>
+						</div>
+					</div>
+				</div>
+				</td>
+				</tr>`;
 	return content;
 }
 
 function noteHtmlRender(alarm) {
-	var content = "";
-	content += "<li class=\"left clearfix\">";
-	content += "	<span class=\"notes-img pull-left\">";
-    content += "		<div class=\"img-circle user-icon-img\"><span class=\"glyphicon glyphicon-user user-icon\" aria-hidden=\"true\"></span></div>";
-    content += "	</span>";
-    content += "	<div class=\"notes-body clearfix\">";
-    content += "		<div class=\"header\">";
-    content += "			<strong class=\"primary-font\">"+alarm.user+"</strong> <small class=\"pull-right text-muted\">";
-    content += "			<span class=\"glyphicon glyphicon-time\"></span>"+alarm.date+"</small>";
-    content += "		</div>";
-    content += "    	<p>"+alarm.text+"</p>";
-    content += "	</div>";
-    content += "</li>";
+	var content = `
+				<li class="left clearfix">
+					<span class="notes-img pull-left">
+						<div class="img-circle user-icon-img"><span class="glyphicon glyphicon-user user-icon" aria-hidden="true"></span></div>
+					</span>
+					<div class="notes-body clearfix">
+						<div class="note-header">
+							<strong class="primary-font">`+alarm.user+`</strong> <small class="pull-right text-muted">
+							<span class="glyphicon glyphicon-time"></span>`+alarm.date+`</small>
+						</div>
+						<p>`+alarm.text+`</p>
+					</div>
+				</li>
+	`;
 	return content;
 }
 
@@ -1305,8 +1310,7 @@ function renderLogin() {
 					<button class="btn btn-lg btn-primary btn-block" id="btn-login" type="submit">Login</button>   
 				</div>
 			</div>
-		</div>`;	
-		
+		</div>`;		
 	if (!$("#alarmdb_login_modal").length){
 		$('body').append(template);
 		return true;
@@ -1443,7 +1447,6 @@ jQuery.each( [ "put", "delete" ], function( i, method ) {
       callback = data;
       data = undefined;
     }
-
     return jQuery.ajax({
       url: url,
       type: method,
@@ -1458,7 +1461,7 @@ function loadAlarmDB(){
 	var settings = validateSettings(AlarmDbSettings);
 	var bStyle = ""
 	var template = `
-	<div style="margin-bottom: 15px;">
+	<div class="header">
 				<ul class="nav nav-tabs">
 					<li id="active_alarm_tab" class="controls"><a data-toggle="tab" href="#"><span class="glyphicon glyphicon-bell" aria-hidden="true"></span> `+settings.ui.tabs.active.title+`</a></li>
 					<li id="alarm_log_tab" class="controls active"><a data-toggle="tab" href="#"><span class="glyphicon glyphicon-list" aria-hidden="true"></span> `+settings.ui.tabs.log.title+`</a></li>
@@ -1468,9 +1471,9 @@ function loadAlarmDB(){
 				</ul>
 			</div>
 			<div class="tab-content">
-				<div class="row table-toolbar" style="height: 50px;">`;
+				<div class="row table-toolbar">`;
 	if (settings.ui.controlBar.enabled === true) {
-		template += `	<div id="controls_top" class="btn-group pull-right" style="padding-right: 15px;">`;
+		template += `	<div id="controls_top" class="btn-group pull-right">`;
 		if (settings.ui.controlBar.manualUpdate.enabled === true) {
 			template += `	<button class="controls btn btn-default" type="button" id="controls_refresh" aria-label="Refresh" title="`+settings.ui.controlBar.manualUpdate.title+`"><i class="glyphicon glyphicon-refresh"></i></button>`;
 		}
@@ -1534,7 +1537,7 @@ function loadAlarmDB(){
 		template += `	</div>`;
 	}
 	if (settings.ui.search.enabled === true) {
-		template += `<div id="search_tab" class="input-group col-xs-6 col-sm-4 col-md-3 search pull-right" style="padding-right: 15px;display: table;">
+		template += `<div id="search_tab" class="input-group col-xs-6 col-sm-4 col-md-3 search pull-right">
 						<input id="search" type="text" class="form-control search" placeholder="`+settings.ui.search.title+`">
 						<span class="input-group-btn">
 							<button id="search_btn"class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
@@ -1545,33 +1548,38 @@ function loadAlarmDB(){
 				<div class="tab-pane fade in active">
 					<div class="row">
 						<div class="col-xs-12" id="alarm_container">
-							<div class="panel panel-default" style="min-height: 200px;padding: 5px 10px 5px 10px;">
+							<div class="panel panel-default">
 								<table class="table" id="alarm_table">
 									<thead class="table_header">
 										<tr>
-											<th class="col1 col-xs-1 col-md-1 col-lg-1"><span class="glyphicon glyphicon-unchecked select_all_f" aria-hidden="true" style="color: #555; padding-right: 5px; display: inline;"></span>`+settings.ui.controlBar.tableColumns.columns.priority.title+`</th>
+											<th class="col1 col-xs-1 col-md-1 col-lg-1"><span class="glyphicon glyphicon-unchecked select_all_f" aria-hidden="true"></span>`+settings.ui.controlBar.tableColumns.columns.priority.title+`</th>
 											<th class="col2 col-xs-3 col-md-2 col-lg-2">`+settings.ui.controlBar.tableColumns.columns.date.title+`</th>
 											<th class="col3 col-xs-1 col-md-1 col-lg-1">`+settings.ui.controlBar.tableColumns.columns.value.title+`</th>
 											<th class="col4 col-xs-4 col-md-5 col-lg-5">`+settings.ui.controlBar.tableColumns.columns.text.title+`</th>
 											<th class="col5 col-xs-1 col-md-1 col-lg-1">`+settings.ui.controlBar.tableColumns.columns.tags.title+`</th>
 											<th class="col6 col-xs-2 col-md-2 col-lg-2">`+settings.ui.controlBar.tableColumns.columns.action.title+`</th>
 										</tr>
-										<tr id="alarm_line" class="info" style="display: none;">
+										<tr id="alarm_line" class="info">
 										</tr>
 									</thead>
 									<tbody id="alarm_list" class="searchable">
 									</tbody>
 								</table>
 							</div>
-							<div class="table-pagination" style="display: block;">
-								<div class="pull-left pagination-detail">
-									<span class="pagination-info"></span>
-									<span class="page-list">
-										<span class="btn-group dropup">
-											<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-												<span class="page-size">10</span> <span class="caret"></span>
-											</button>
+							<div class="table-pagination row">
+								<div class="pagination-total col-xs-12 col-md-3 col-lg-3">
+								</div>
+								<div class="pagination-info col-xs-12 col-md-4 col-lg-4">
+									<span></span>
+								</div>
+								<div class="pagination-detail col-xs-12 col-md-5 col-lg-5">
+									<div class="btn-group dropup hide">
+										<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+											<span class="page-size">10</span> <span class="caret"></span>
+										</button>
 											<ul class="dropdown-menu" role="menu">
+												<div class="panel-heading">Rows per page</div>
+												<li role="separator" class="divider"></li>
 												<li role="menuitem" class="link active">
 													<a href="#">10</a>
 												</li>
@@ -1588,11 +1596,9 @@ function loadAlarmDB(){
 													<a href="#">All</a>
 												</li>
 											</ul>
-										</span> per page
-									</span>
-								</div>
-								<div class="pull-right" style="margin-bottom: 25px;">
-									<ul id="pagination-list" class="pagination" style="margin: 0px;"></ul>
+										<ul id="pagination-list" class="pagination"></ul>
+									</div>
+									
 								</div>
 							</div>
 						</div>
@@ -1606,6 +1612,18 @@ function loadAlarmDB(){
 	renderLogin();
 	getDbAlarms();
 	return;
+}
+
+function updatePaginationTotal(active,ackn,notes) {
+	content = `
+		<i>`+AlarmDbSettings.ui.footer.totals.title+`</i>
+		<span class="glyphicon glyphicon-bell" aria-hidden="true"></span><i>`+active+`</i>
+		<span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span><i>`+ackn+`</i>
+		<span class="glyphicon glyphicon-comment active_icon" aria-hidden="true"></span><i>`+notes+`</i>
+	`;
+	$(".pagination-total").html("");
+	$(".pagination-total").append(content);
+	return true;
 }
 
 function validateSettings(newSettings){

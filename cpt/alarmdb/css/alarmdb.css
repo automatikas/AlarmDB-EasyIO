@@ -9,7 +9,12 @@
  */
  
 .container {
-	width: 100%;
+	/*width: 100%;*/
+	/*margin-top: 15px;*/
+}
+
+.header {
+	margin-bottom: 15px;
 	margin-top: 15px;
 }
 
@@ -58,6 +63,56 @@
 
 .disabled_icon {
 	color: #999;
+}
+
+.table-toolbar {
+	height: 50px;
+}
+
+#controls_top {
+	padding-right: 15px;
+}
+
+#search_tab {
+	padding-right: 15px;
+	padding-left: 15px;
+	display: table;
+}
+
+#alarm_container .panel {
+	min-height: 200px;
+	padding: 5px 10px 5px 10px;
+}
+
+.table_header .glyphicon {
+	color: #555; 
+	padding-right: 5px; 
+	display: inline;
+}
+
+#alarm_line {
+	display: none;
+}
+
+.table-pagination {
+	margin-bottom: 20px;
+}
+
+.pagination-detail {
+	text-align: right;
+}
+
+.pagination-detail .panel-heading {
+	padding: 5px;
+	text-align: center;
+}
+
+.pagination-info {
+	text-align: center;
+}
+
+#pagination-list {
+	margin: 0 0 0 20px;
 }
 
 .notes {
@@ -208,6 +263,38 @@
     margin: 0;
 }
 
+.pagination-total .glyphicon {
+	padding-right: 5px;
+	padding-left: 5px;
+}
+
+.pagination-total .glyphicon-bell {
+	color: #FFC107;
+}
+
+.pagination-total .glyphicon-ok-sign {
+	color: #8BC34A;
+}
+
+.controls .glyphicon-ok-sign {
+	color: #8BC34A;
+}
+
+.dates .glyphicon-bell {
+	color: #FFC107;
+    padding-right: 5px;
+}
+
+.dates .glyphicon-ok-sign {
+	color: #8BC34A;
+    padding-right: 5px;
+}
+
+.col1 .label {
+	margin-left: 5px;
+}
+
+
 @-webkit-keyframes swinging{
     0%{-webkit-transform: rotate(10deg);}
     50%{-webkit-transform: rotate(-5deg)}
@@ -231,12 +318,25 @@
 }
 
 @media only screen and (min-device-width : 545px) {
-#controls_search {display:none;}
-.search { display:block;}
+	#controls_search {display:none;}
+	
+	.search { display:block;}
+
 }
 
 @media only screen and (max-device-width : 544px) {
-.search { width: 100%; display:none; margin: 5px 0 5px 0;}
-#controls_search {display:inline;}
+	.search { 
+		width: 100%; 
+		display:none;
+		margin-bottom: 10px;
+	}
+	
+	#controls_search {
+		display:inline;
+	}
+	
+	.nav a {
+		display:none;
+	}
 }
 
