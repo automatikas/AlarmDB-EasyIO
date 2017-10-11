@@ -10,6 +10,10 @@
  */
  
 //ini_set('display_errors',1); error_reporting(E_ALL); 
+
+$table_check = new UI_model();
+$table_check->tableExists();
+
 class UI_model {
 	
 	public $id=0;
@@ -309,7 +313,7 @@ class UI_model {
 				return false;
 		}		
 	}
-	
+		
 	/**
 	 * This loads all alarms from database into returned value
 	 */
@@ -498,6 +502,30 @@ class UI_model {
 		}
 		$responseArray['notes'] = $c;
 		return $responseArray;
+	}
+	
+	/**
+	 * This checks DB if AlarmDB tables ready/created if not creates new tables
+	 */
+	public function tableExists() {
+		$db = DBConn::instance()->history_db();
+		try {
+			$alarms = $db->query("SELECT 1 FROM alarms LIMIT 1");
+		} catch (Exception $e) {
+			$alarms = false;
+		}	
+		if(!$alarms) {
+			$db->query("CREATE TABLE alarms (id INTEGER PRIMARY KEY AUTOINCREMENT, priority TEXT, date TEXT, value TEXT, text TEXT, tags TEXT, ackn TEXT, adate TEXT, ackn_user TEXT, attr TEXT, attachment TEXT)");
+		}
+		try {
+			$notes = $db->query("SELECT 1 FROM notes LIMIT 1");
+		} catch (Exception $e) {
+			$notes = false;
+		}
+		if(!$notes) {
+			$db->query("CREATE TABLE notes (id INTEGER PRIMARY KEY AUTOINCREMENT, alarm_id TEXT, user TEXT, date TEXT, text TEXT)");
+		}
+		return false;
 	}
 
 }
