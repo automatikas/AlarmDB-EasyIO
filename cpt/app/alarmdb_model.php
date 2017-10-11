@@ -6,7 +6,7 @@
  * @author     Andrius Jasiulionis <automatikas@gmail.com>
  * @copyright  Copyright (c) 2017, Andrius Jasiulionis
  * @license    MIT
- * @version    2.07.1
+ * @version    2.07.2
  */
  
 //ini_set('display_errors',1); error_reporting(E_ALL); 
@@ -267,6 +267,10 @@ class UI_model {
 			if(isset($allAlarms)) {
 				$responseArray['alarms'] = $allAlarms;
 			}
+			$totals = $this->readTotal();
+			if(!empty($totals)) {
+				$responseArray['totals'] = $totals;
+			}
 			return $responseArray;
 		} else {
 				return false;
@@ -285,13 +289,19 @@ class UI_model {
 				$stmt = $db->prepare('DELETE FROM alarms WHERE id=:value');
 				$stmt ->bindValue(':value', $value);
 				$stmt->execute();
-				
+				//need check if deleted
 				$stmt = $db->prepare('DELETE FROM notes WHERE alarm_id=:value');
 				$stmt ->bindValue(':value', $value);
 				$stmt->execute();
 			}
 			if (count($wrongIdArray) > 0) {
 				$responseArray['warning'] = $wrongIdArray;
+			}
+			$totals = $this->readTotal();
+			if(!empty($totals)) {
+				$responseArray['totals'] = $totals;
+			}
+			if(!empty($responseArray)) {
 				return $responseArray;
 			}
 			return true;
@@ -305,7 +315,7 @@ class UI_model {
 	 */
 	public function loadUiAllAlarms(){
 		$db = DBConn::instance()->history_db();
-		$limit = 10000;
+		$limit = 500;
 		$stmt = $db->prepare('SELECT * FROM alarms ORDER BY date DESC LIMIT :limit');
 		$stmt ->bindValue(':limit', $limit);
 		$stmt->execute();
@@ -362,6 +372,10 @@ class UI_model {
 		}
 		if(!empty($activeAlarms)) {
 			$responseArray['active_alarms'] = $activeAlarms;
+		}
+		$totals = $this->readTotal();
+		if(!empty($totals)) {
+			$responseArray['totals'] = $totals;
 		}
 		return $responseArray;
 	}
@@ -440,10 +454,50 @@ class UI_model {
 			if(!empty($allNotes)){
 				$responseArray['notes'] = $allNotes;
 			}
+			$totals = $this->readTotal();
+			if(!empty($totals)) {
+				$responseArray['totals'] = $totals;
+			}
 			return $responseArray;
 		} else {
 			return false;
 		}
+	}
+	
+	/**
+	 * This returns total count of records from DB
+	 */
+	public function readTotal(){
+		$db = DBConn::instance()->history_db();
+		$limit = 100000;
+		$stmt = $db->prepare('SELECT ackn FROM alarms LIMIT :limit');
+		$stmt ->bindValue(':limit', $limit);
+		$stmt->execute();
+		$stmt->setFetchMode(PDO::FETCH_ASSOC);
+		$activeAlarms = array();
+		$a = 0;
+		$b = 0;
+		while($row = $stmt->fetch()){
+			if($row['ackn'] == 'true'){
+				$b++;
+			} else {
+				$a++;
+			}
+		}
+		$responseArray['active'] = $a;
+		$responseArray['ackn'] = $b;
+		
+		$stmt = $db->prepare('SELECT date FROM notes LIMIT :limit');
+		$stmt ->bindValue(':limit', $limit);
+		$stmt->execute();
+		$stmt->setFetchMode(PDO::FETCH_ASSOC);
+		$activeAlarms = array();
+		$c = 0;
+		while($row = $stmt->fetch()){
+			$c++;
+		}
+		$responseArray['notes'] = $c;
+		return $responseArray;
 	}
 
 }

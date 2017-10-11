@@ -6,7 +6,7 @@
  * @author     Andrius Jasiulionis <automatikas@gmail.com>
  * @copyright  Copyright (c) 2017, Andrius Jasiulionis
  * @license    MIT
- * @version    2.07.1
+ * @version    2.07.2
  */
  
 //ini_set('display_errors',1); error_reporting(E_ALL); 
@@ -142,6 +142,12 @@ class UI_controler {
 					$this->returnData['warning']='One or more alarms are not found in database with specified IDs!';
 					$this->returnData['ids']=$alarm['warning'];
 				}
+				if(isset($alarm['totals'])){ 
+					$this->returnData['totals']=$alarm['totals'];
+					if(!isset($alarm['warning'])){
+						$this->returnData['success']='Alarm(s) deleted!';
+					}
+				}
 			}
 		}
 		return $this->returnData;
@@ -183,11 +189,12 @@ class UI_controler {
 				if(isset($alarm['warning'])){ 	
 					$this->returnData['warning']='One or more alarms are not found in database with specified IDs!';
 					$this->returnData['ids']=$alarm['warning'];
-					if(isset($alarm['alarms'])){ 
-						$this->returnData['alarms']=$alarm['alarms'];
-					}
-				} else {
+				}
+				if(isset($alarm['alarms'])){ 
 					$this->returnData['alarms']=$alarm['alarms'];
+				}				
+				if(isset($alarm['totals'])){ 
+					$this->returnData['totals']=$alarm['totals'];
 				}
 			}
 		}
@@ -250,7 +257,6 @@ class UI_controler {
 					return $this->returnData;
 				}
 			}
-			// This loads the model object from the class we created
 			$notes = new UI_model();
 			$ids = $this->validateID($input['id']);
 			$user = $this->validateUser($input['ackn_user']);
@@ -262,6 +268,14 @@ class UI_controler {
 				$this->returnData['error']='Note not saved!';
 			}
 		}
+		return $this->returnData;
+	}
+	
+	/*
+	 * API ping test
+	 */
+	public function ping(){
+		$this->returnData['ping']='ok';
 		return $this->returnData;
 	}
 	
@@ -326,8 +340,8 @@ class UI_permissions {
 	public function whitelistCommands($method,$command) {
 		
 		//White-list of commands.
-		$get_commands = 'alarmdb-get,alarmdb-all,alarmdb-active,alarmdb-uiall,alarmdb-noteget'; // read-only commands.
-		$post_commands = 'alarmdb-add,alarmdb-noteadd,alarmdb-ackn,alarmdb-delete'; // write commands. 
+		$get_commands = 'alarmdb-get,alarmdb-all,alarmdb-active,alarmdb-uiall,alarmdb-noteget,alarmdb-ping'; // read-only commands.
+		$post_commands = 'alarmdb-add,alarmdb-noteadd,alarmdb-ackn,alarmdb-delete,alarmdb-get'; // write commands. 
 		$put_commands = 'alarmdb-ackn';
 		$delete_commands = 'alarmdb-delete';
 		
