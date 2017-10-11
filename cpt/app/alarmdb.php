@@ -6,7 +6,7 @@
  * @author     Andrius Jasiulionis <automatikas@gmail.com>
  * @copyright  Copyright (c) 2017, Andrius Jasiulionis
  * @license    MIT
- * @version    2.07.1
+ * @version    2.07.2
  */
 
 //ini_set('display_errors',1); error_reporting(E_ALL);
@@ -29,7 +29,6 @@ class GraphicController extends BaseController {
 $controller = new GraphicController();
 $controller->run();
 $u = $controller->curUser();
-
 
 ?>
 

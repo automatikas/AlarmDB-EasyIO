@@ -22,8 +22,6 @@
 	$a = new stdClass();
 	$input = '';
 	
-	
-
   class AlarmDBController extends BaseController {
 
     protected function signinRequired() {
