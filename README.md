@@ -1,23 +1,30 @@
-# What is AlarmDB?
-It is Web app to manage your device alarms. This manual will guide you how to install alarm management app in to your[EasyIO](https://easyio.eu/)products. This app will extend your F series controllers with ability to log, track and manage alarms generated in your devices. This project is branch of the original[AlarmDB project](https://automatikas.gitbooks.io/alarmdb-for-easyio/content/#documentation-httpsgithubcomautomatikasalarmdbwiki)witch was ported to[EasyIO](https://easyio.eu/)F series controllers.
+W
+hat is AlarmDB?
+It is a Web app which extends functionality of your EasyIO FG, FS, FW controllers and will make controllers to have alarm management system the way modern BMS systems do with no extra cost. So more functions with same cost! Happy days!
 
-# Can I used it for my commercial projects?
-Yes, project is open sourced under MIT license. It is completely free and ment to encourage automation community to be more open and share developments more openly so we all can progress more and have better solutions around the world.
+This instruction manual will guide you trough how to install and use alarm management app an kit in to your EasyIO products.
 
-# Online documentation book
-https://automatikas.gitbooks.io/alarmdb-for-easyio/content/
+This project is a branch of the original AlarmDB project which was ported to EasyIO controllers so FG, FS controller can act as AlarmDB servers/clients and FW controllers can be clients only.
 
-# Authors quote
-This project is developed by using my free time and good will. There is no budget or other commercial support for this project and I'll try to maintain the project the best as I can. If you want to contribute, support or have ideas how to expand this project in any way please get in contact with me for more information.
+Sedona Kit made for FG,FS,FW controllers lets you push alarms to server(s) directly from your programming app locally or across the TCP/IP network. Same CPT tool is used so no new programming needs to be to learned.
+
+
+Can I used it for my commercial projects?
+Yes, project is an open source under MIT license. It is completely free and ment to encourage automation community to be more open and share developments more openly so we all can progress more and have better solutions around the world.
+
+Authors quote
+If you want to contribute, support or have ideas how to expand this project in any way please get in contact with me with more information about possibilities.
 
 Feel free to give me your feedback this will make this project go further and beyond. Wish you and your projects get extra value by using this app.
 
-[Andrius Jasiulionis](https://www.linkedin.com/in/andriusjasiulionis/)
+Andrius Jasiulionis
 
 2017-October-Planet Earth
 
-![](https://raw.githubusercontent.com/automatikas/AlarmDB/master/docs/img/alarm_console_log_view_notes.PNG)
+GitHub
+Branch for EasyIO devices | https://github.com/automatikas/AlarmDB-EasyIO
 
-# Authors, contributors
-[Andrius Jasiulionis](https://www.linkedin.com/in/andriusjasiulionis/)\| automatikas@gmail.com \|[http://www.ajso.lt](http://www.ajso.lt/)
+Master AlarmDB project | https://github.com/automatikas/AlarmDB
 
+Project contributors
+Andrius Jasiulionis | automatikas@gmail.com | http://www.ajso.lt
