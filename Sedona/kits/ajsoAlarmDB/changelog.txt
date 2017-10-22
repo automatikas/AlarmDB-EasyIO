@@ -1,0 +1,35 @@
+    
+*** Change-log:
+
+2017-10-20 1.0.45.23
+    AJ Version number change. removed FG firmware version number as there are no dependencies related to firmware.
+    AJ boolean point normal state default priority changed to 250
+    AJ float point Default Dead-band changed to 0.5, default normal priority changed to 250
+    AJ To avoid Database Time-zone issues Date is taken from Sedona date-time and datetimeStd. Controllers Sedona time is used instead. New kit dependencies date-time and datetimeStd
+    AJ New function printDate() to returns string with current date and time (2017-10-01 12:21:21) of Sedona.
+    AJ After success logging status will indicate date and time when it was last logged.
+    AJ New property valueUnits for logFloat. Will add units to the value. 21.2 degC
+    AJ trim float value to 1 decimal.
+    AJ Fixed good lastValue persistence for logBool
+    AJ AlarmStatus for logBool  if in is null then takes lastValue as alarm status. This is valid only for on-load or reboot condition.
+    AJ Fixed persistence for alarmHigh and alarmLow in logFloat after reboot.
+    AJ Optimized unused memory allocation.
+
+2017-10-04 1.0.45.47.22 
+    AJ  concat3 update print only if string !="", sometimes returned unwanted characters
+
+2017-10-03 1.0.45.47.21 
+    AJ   pingServer action. Test connection with AlarmDB server. Returns status message.
+    AJ   IN for logBool @allowNull=true. If null stops logging. Based on last-value before null will log or not alarm on change from null to true/false.
+    AJ   Clear Status field on disable/enable
+
+2017-10-02 1.0.45.47.20
+    AJ   On Start delay 5s for IN onChange to avoid alarms on APP boot.
+    AJ   Alarm status update after start-up delay
+    AJ   getTags action. Gets up to 3 parent level component names (up to APP level) and saves them as point tags. 
+
+2017-09-27 1.0.45.47.19 
+    AJ   Priority range changed 0-300 to support default grey colour, comments clean-up, default text values, Minimum onChange delay 1s
+
+2017-09-24 1.0.45.47.1
+    AJ   Initial build
