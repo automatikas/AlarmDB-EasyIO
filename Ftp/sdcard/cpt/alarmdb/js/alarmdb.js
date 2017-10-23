@@ -1,7 +1,7 @@
 var AlarmDbSettings = {
 		title: "AlarmDB API UI core",
 		href: "https://github.com/automatikas/AlarmDB/releases/tag/",
-		version: "v2.07.2",
+		version: "v2.07.3",
 		author: "Andrius Jasiulionis <automatikas@gmail.com>",
 		copyright: "Copyright (c) 2017, Andrius Jasiulionis",
 		license: "MIT",
@@ -161,6 +161,7 @@ var AlarmDbSettings = {
 $(AlarmDbSettings.ui.loadContainer.divId).ready(function () {
 	
 	$(AlarmDbSettings.ui.loadContainer.divId).on("click", "#controls_refresh", function(e) {
+		$(this).blur();
 		e.preventDefault();
 		getDbAlarms();
     });
@@ -170,10 +171,12 @@ $(AlarmDbSettings.ui.loadContainer.divId).ready(function () {
 		return function(e) {
 			if (interId) {
 				$(this).removeClass("active");
+				$(this).blur();
 				clearInterval(interId);
 				interId = null;
 			} else {
 				$(this).addClass("active");
+				$(this).blur();
 				interId = setInterval(function() {
 					getDbAlarms();
 				}, 60000);        
@@ -183,6 +186,7 @@ $(AlarmDbSettings.ui.loadContainer.divId).ready(function () {
 	
 	$(AlarmDbSettings.ui.loadContainer.divId).on("click", "#controls_paginationSwitch", function(e) {
 		e.preventDefault();
+		$(this).blur();
 		$(this).toggleClass("active");
 		if ($(this).hasClass("active")) {
 			AlarmDbSettings.internals.page_size = $(".pagination-detail").find(".page-size").text();
@@ -200,6 +204,7 @@ $(AlarmDbSettings.ui.loadContainer.divId).ready(function () {
     });
 	
 	$(AlarmDbSettings.ui.loadContainer.divId).on("click", "#controls_search", function(e) {
+		$(this).blur();
 		e.preventDefault();
 		$(this).toggleClass("active");
 		$('#search_tab').css('display', $('#search_tab').css('display') == 'none' ? 'block' : 'none');
@@ -261,6 +266,7 @@ $(AlarmDbSettings.ui.loadContainer.divId).ready(function () {
 	
 	$(AlarmDbSettings.ui.loadContainer.divId).on("click", "#alarm_list .alarm_b_ackn", function (e) {
 		e.preventDefault();
+		$(this).blur();
 		var trig_row = $(this).parent().parent().parent();
 		var ids = "";
 		$("#alarm_list").find(".select").each(function() {
@@ -284,6 +290,7 @@ $(AlarmDbSettings.ui.loadContainer.divId).ready(function () {
 	
 	$(AlarmDbSettings.ui.loadContainer.divId).on("click", "#alarm_list .alarm_b_delete", function (e) {
 		e.preventDefault();
+		$(this).blur();
 		var trig_row = $(this).parent().parent().parent();
 		var ids = "";
 		$("#alarm_list").find(".select").each(function() {
@@ -305,6 +312,7 @@ $(AlarmDbSettings.ui.loadContainer.divId).ready(function () {
 	
 	$(AlarmDbSettings.ui.loadContainer.divId).on("click", "#alarm_list .alarm_b_notes", function (e) {
 		e.preventDefault();
+		$(this).blur();
 		$(this).parent().parent().parent().find(".notes-panel").toggleClass("hide");
 		if($(this).parent().parent().parent().find(".notes-panel").is(":visible")) {
 			$(this).parent().parent().parent().find(".notes").html("");
@@ -315,7 +323,7 @@ $(AlarmDbSettings.ui.loadContainer.divId).ready(function () {
 	
 	$(AlarmDbSettings.ui.loadContainer.divId).on("click", "#btn-notes", function (e) {
 		e.preventDefault();
-		
+		$(this).blur();
 		var ids = "";
 		$("#alarm_list").find(".select").each(function() {
 			if (ids == "") {
@@ -456,9 +464,14 @@ $(AlarmDbSettings.ui.loadContainer.divId).ready(function () {
 	});
 	
 	$(AlarmDbSettings.ui.loadContainer.divId).on("click", "#search_btn", function () {
+		$(this).blur();
 		$(this).find(".glyphicon").toggleClass("glyphicon-search").toggleClass("glyphicon-remove");
 		search_table($("#search").val());
 		updateTableColumns();
+    });
+	
+	$(AlarmDbSettings.ui.loadContainer.divId).on("click", "#download_link", function () {
+		pushTableAlert("hide", "");
     });
 });
 
@@ -659,7 +672,7 @@ function acknAlarms(ids,user){
 }
 
 function delAlarms(ids){
-	if(!confirmAlert("Are you sure want to delete?")) {
+	if(!confirmAlert("Are you sure you want to delete this alarm?")) {
 		return;
 	}
 	refreshButtonLoadingStyle(true);
@@ -1400,7 +1413,6 @@ function export_file(type) {
 			ids += ","+$(this).attr("id");
 		}
 	});
-	var newWindow = window.open('');
 	var alarmAPI = AlarmDbSettings.api.location;
 	var apiComands = {
 			"www-command": "alarmdb-get",
@@ -1412,8 +1424,12 @@ function export_file(type) {
 	refreshButtonLoadingStyle(true);
 	$.post(alarmAPI, headers)
 	.done(function(data) {
-		if (typeof(data.export) != "undefined") {
-			newWindow.location = data.href;
+		if (typeof(data.export_status) != "undefined") {
+			if(data.export_status == "ready") {
+				pushTableAlert("info", "Export file was generated at "+data.date+". To download the file follow the link: <a href=\""+data.href+"\" id=\"download_link\" target=\"_blank\">Download</a>");
+			} 
+		} else {
+			pushTableAlert("warning", "Server failed to generate an export file");
 		}
 		if (data.warning) {
 			pushTableAlert("warning", data.warning);
@@ -1435,9 +1451,6 @@ function export_file(type) {
 		refreshButtonLoadingStyle(false);
 		return false;
 	})
-	
-	
-	
 }
 
 jQuery.each( [ "put", "delete" ], function( i, method ) {
@@ -1569,10 +1582,10 @@ function loadAlarmDB(){
 							<div class="table-pagination row">
 								<div class="pagination-total col-xs-12 col-md-3 col-lg-3">
 								</div>
-								<div class="pagination-info col-xs-12 col-md-4 col-lg-4">
+								<div class="pagination-info col-xs-12 col-md-3 col-lg-3">
 									<span></span>
 								</div>
-								<div class="pagination-detail col-xs-12 col-md-5 col-lg-5">
+								<div class="pagination-detail col-xs-12 col-md-6 col-lg-6">
 									<div class="btn-group dropup hide">
 										<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
 											<span class="page-size">10</span> <span class="caret"></span>

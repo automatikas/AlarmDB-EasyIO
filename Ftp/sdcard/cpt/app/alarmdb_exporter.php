@@ -6,17 +6,17 @@
  * @author     Andrius Jasiulionis <automatikas@gmail.com>
  * @copyright  Copyright (c) 2017, Andrius Jasiulionis
  * @license    MIT
- * @version    2.07
+ * @version    2.07.3
  */
  
 	//ini_set('display_errors',1); error_reporting(E_ALL);
 
 	include_once 'base_controller.php';
+	include_once "data_formatters.php";
 	include_once 'alarmdb_controller.php';
 	include_once 'alarmdb_model.php';
 	
 	date_default_timezone_set('UTC');
-	// this one will be an issue later, need better time-zone handling for future release!
 	
 	$a = array();
 	$a = new stdClass();
@@ -48,12 +48,23 @@
 		$alarms = new UI_controler();
 		$get_command = preg_replace('/^alarmdb-/', '', $input['www-command']);
 		$alarms->$get_command($input);
-		
+		$this->printRes($input,$alarms);
+    }
+	
+	protected function doPost() {
+		$input = $this->getInputs($_POST);
+		$alarms = new UI_controler();
+		$get_command = preg_replace('/^alarmdb-/', '', $input['www-command']);
+		$alarms->$get_command($input);
+		$this->printRes($input,$alarms);
+	}
+	
+	protected function printRes($input,$alarms) {
 		switch($input['format']) {
-			case 'xml':
+			case 'xml-ghcvbcbcb':
 				if($input['file']){
 					$file_name = date("YmdHis",time()).'_alarmdb_export';
-					header('Content-disposition: attachment; filename='.$file_name.'.xml');
+					header('Content-disposition: attachment; filename='.$file_name.'.xml;');
 				}
 				header('Content-type: application/xml;charset=utf-8');
 				function array_to_xml( $data, &$xml_data ) {
@@ -75,11 +86,6 @@
 				echo $xml_data->asXML();
 				break;
 			case 'csv':
-				if($input['file']){
-					$file_name = date("YmdHis",time()).'_alarmdb_export';
-					header('Content-disposition: attachment; filename='.$file_name.'.csv');
-				}
-				header('Content-type: text/csv;charset=utf-8');
 				function array_to_csv($data) {
 					$outputBuffer = fopen("php://output", 'w');
 					$keys = array_keys($data['0']);
@@ -94,27 +100,75 @@
 					fclose($outputBuffer);
 				}
 				$data = $alarms->returnData['alarms'];
+				if($input['file']){
+					$now = time();
+					$date_format = date("Y-m-d H:i:s",$now);
+					$format = 'csv';
+					$file_name = 'alarmdb_export';
+					$formater = new DataFormatter();
+					$formater->saveToLocal($file_name);
+					$path = $formater->localFilePath('.'.$format);
+					$fp = fopen($path, 'w+');
+					$keys = array_keys($data['0']);
+					foreach (array_keys($keys, 'notes') as $key) {
+						unset($keys[$key]);
+					}
+					fwrite($fp, fputcsv($fp, $keys));
+					foreach($data as $val) {
+						unset($val['notes']); 
+						fwrite($fp, fputcsv($fp, $val));
+					}
+					//fwrite($fp, json_encode($alarms->returnData));
+					fclose($fp);
+					$path = explode(DIRECTORY_SEPARATOR, $path);
+					array_shift($path);
+					array_shift($path);
+					array_shift($path);
+					array_shift($path);
+					array_unshift($path, '../../..');
+					$link = implode(DIRECTORY_SEPARATOR, $path);
+					$responce['export_status'] = 'ready';
+					$responce['date'] = $date_format;
+					$responce['format'] = $format;
+					$responce['href'] = $link;
+					header('Content-type: application/json;charset=utf-8');
+					echo json_encode($responce);
+					break;
+				}
 				array_to_csv($data);
 				break;
 			default:
-				if($input['file']){
-					$file_name = date("YmdHis",time()).'_alarmdb_export';
-					header('Content-disposition: attachment; filename='.$file_name.'.json');
+				if($input['file'] || $input['save_to_local']){
+					$now = time();
+					$date_format = date("Y-m-d H:i:s",$now);
+					$format = 'json';
+					$file_name = 'alarmdb_export';
+					$formater = new DataFormatter();
+					$formater->saveToLocal($file_name);
+					$path = $formater->localFilePath('.'.$format);
+					$fp = fopen($path, 'w+');
+					fwrite($fp, json_encode($alarms->returnData));
+					fclose($fp);
+					$path = explode(DIRECTORY_SEPARATOR, $path);
+					array_shift($path);
+					array_shift($path);
+					array_shift($path);
+					array_shift($path);
+					array_unshift($path, '../../..');
+					$link = implode(DIRECTORY_SEPARATOR, $path);
+					$responce['export_status'] = 'ready';
+					$responce['date'] = $date_format;
+					$responce['format'] = $format;
+					$responce['href'] = $link;
+					header('Content-type: application/json;charset=utf-8');
+					echo json_encode($responce);
+					break;
 				}
 				header('Content-type: application/json;charset=utf-8');
 				header('Access-Control-Allow-Origin: *');
 				echo json_encode($alarms->returnData);
 				break;
 		}
-    }
-	
-	protected function doPost() {
-		$input = $this->getInputs($_POST);
-		$alarms = new UI_controler();
-		$get_command = preg_replace('/^alarmdb-/', '', $input['www-command']);
-		$alarms->$get_command($input);
-		header('Content-type: application/json;charset=utf-8');
-		echo json_encode($alarms->returnData);
 	}
 	
 	protected function getInputs($_inputs) {
@@ -173,6 +227,11 @@
 			$input['file'] = true;
 		} else {
 			$input['file'] = false;
+		}
+		if(isset($_inputs['save_to_local'])) {
+			$input['save_to_local'] = true;
+		} else {
+			$input['save_to_local'] = false;
 		}
 		return $input;
 	}
