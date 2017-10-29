@@ -5,7 +5,7 @@ This project is a branch of the original [AlarmDB](https://github.com/automatika
 
 Sedona Kit made for FG,FS,FW controllers lets you push alarms to server(s) directly from your programming app locally or across the TCP/IP network. Same CPT tool is used so no new programming needs to be to learned.
 
-![map](https://automatikas.gitbooks.io/alarmdb-for-easyio/content/assets/network_leaf.PNG)
+![map](https://github.com/automatikas/AlarmDB/raw/master/docs/img/network_leaf.PNG)
 
 # Can I used it for my commercial projects?
 Yes, project is an open source under MIT license. It is completely free and ment to encourage automation community to be more open and share developments more openly so we all can progress more and have better solutions around the world.
