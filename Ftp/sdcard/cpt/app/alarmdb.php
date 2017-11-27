@@ -46,7 +46,7 @@ $u = $controller->curUser();
 	</head>
 	<body>
 	
-		<div id ="myAlarmContainer" class="container" style="width: 1024px;"></div>
+		<div id ="myAlarmContainer" class="container" style="width: 1120px;"></div>
 		
 		<script type="text/javascript">
 			$(document).ready(function () {
