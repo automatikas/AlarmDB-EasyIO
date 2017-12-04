@@ -28,4 +28,4 @@ Master AlarmDB project | https://github.com/automatikas/AlarmDB
 
 # Project contributors
 Andrius Jasiulionis | automatikas@gmail.com | http://www.ajso.lt
-
+Vincent Wang | https://github.com/linsong
