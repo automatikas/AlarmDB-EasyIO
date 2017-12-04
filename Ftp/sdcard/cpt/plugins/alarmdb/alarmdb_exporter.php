@@ -10,6 +10,7 @@
  */
  
 	//ini_set('display_errors',1); error_reporting(E_ALL);
+	set_include_path(get_include_path() . PATH_SEPARATOR . '../../app');
 
 	include_once 'base_controller.php';
 	include_once "data_formatters.php";
