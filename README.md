@@ -1,4 +1,4 @@
-# What is AlarmDB?
+# AlarmDB plugin for EasyIO FG/FS/FW controllers
 
 It is a Web app which extends functionality of your EasyIO FG, FS, FW controllers and will make your controllers to have alarm management system the way modern BMS systems do with no extra cost. So more functions with same cost! Happy days!
 This project is a branch of the original [AlarmDB](https://github.com/automatikas/AlarmDB) project which was ported to EasyIO controllers so FG, FS controller can act as AlarmDB servers/clients and FW controllers can be clients only.
