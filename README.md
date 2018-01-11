@@ -17,14 +17,14 @@ Feel free to give me your feedback this will make this project go further and be
 [Andrius Jasiulionis](https://www.linkedin.com/in/andriusjasiulionis/)
 
 2017-October-Planet Earth
-# Documentation on GitBook
-
-!IMPORTANT Documentation is done on old model. PLUGIN model manual will come SHORTLY.
+# Documentation on GitBook !IMPORTANT Documentation is done on old model. PLUGIN model manual will come SHORTLY.
 Alarmdb-for-EasyIO | https://www.gitbook.com/book/automatikas/alarmdb-for-easyio/details
 
-SHORT instructios:
+# SHORT instructios:
 Copy alarmdb folder via FTP to FS,FG /sdcard/cpt/plugins/
+
 Install Sedona kit 1.0.45.25
+
 If you need demo data copy over easyio.db database
 
 # Source on GitHub
