@@ -25,7 +25,8 @@ Copy ajsoAlarmDB folder to your Sedona kits folders. Install Sedona kit 1.0.45.2
 
 OPTIONAL: If you need demo data copy over easyio.db database to /sdcard/ !IMPORTANT this will overwrite your database
 
-Full documentation | https://automatikas.gitbooks.io/alarmdb-for-easyio/content/
+# Full manual: 
+Instructions | https://automatikas.gitbooks.io/alarmdb-for-easyio/content/
 
 # Source on GitHub
 For EasyIO devices | https://github.com/automatikas/AlarmDB-EasyIO
