@@ -21,17 +21,17 @@ Feel free to give me your feedback this will make this project go further and be
 # Quick guide:
 Download the latest release | [follow this link](https://github.com/automatikas/AlarmDB-EasyIO/releases/latest)
 
-Copy alarmdb folder via FTP to FS,FG /sdcard/cpt/plugins/
+Copy `alarmdb` folder via FTP to FS,FG `/sdcard/cpt/plugins/`
 
-Copy ajsoAlarmDB folder to your Sedona kits folders. Install Sedona kit 1.0.45.xx on your FG,FS,FW controllers.
+Copy `ajsoAlarmDB` folder to your Sedona kits folders. Install Sedona kit `1.0.45.xx` on your FG,FS,FW controllers.
 
-OPTIONAL: If you need demo data copy over easyio.db database to /sdcard/ !IMPORTANT this will overwrite your database
+OPTIONAL: If you need demo data copy over `easyio.db` database to `/sdcard/` **!IMPORTANT** this will overwrite your database
 
 # Full manual: 
-Instructions | https://automatikas.gitbooks.io/alarmdb-for-easyio/content/
+Instructions | [follow this link](https://automatikas.gitbooks.io/alarmdb-for-easyio/content/)
 
 # Source on GitHub
-For EasyIO devices | https://github.com/automatikas/AlarmDB-EasyIO
+For EasyIO devices | [follow this link](https://github.com/automatikas/AlarmDB-EasyIO)
 
 # Project contributors
 Andrius Jasiulionis | automatikas@gmail.com | http://www.ajso.lt
