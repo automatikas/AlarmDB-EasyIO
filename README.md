@@ -23,7 +23,7 @@ Download the latest release | [follow this link](https://github.com/automatikas/
 
 Copy alarmdb folder via FTP to FS,FG /sdcard/cpt/plugins/
 
-Copy ajsoAlarmDB folder to your Sedona kits folders. Install Sedona kit 1.0.45.25 on your FG,FS,FW controllers.
+Copy ajsoAlarmDB folder to your Sedona kits folders. Install Sedona kit 1.0.45.xx on your FG,FS,FW controllers.
 
 OPTIONAL: If you need demo data copy over easyio.db database to /sdcard/ !IMPORTANT this will overwrite your database
 
