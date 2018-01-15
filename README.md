@@ -18,7 +18,7 @@ Feel free to give me your feedback this will make this project go further and be
 
 2017-October-Planet Earth
 
-# SHORT instructios:
+# Quick guide:
 Copy alarmdb folder via FTP to FS,FG /sdcard/cpt/plugins/
 
 Copy ajsoAlarmDB folder to your Sedona kits folders. Install Sedona kit 1.0.45.25 on your FG,FS,FW controllers.
