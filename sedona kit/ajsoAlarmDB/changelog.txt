@@ -1,7 +1,7 @@
     
 *** Change-log:
 2017-12-14 1.0.45.25
-    AJ logBool pigServer link fixed (thanks to @apexc)
+    AJ logBool pingServer link fixed (thanks to @apexc)
 
 2017-12-14 1.0.45.24
     AJ Addapt to new folder structure from Vincent. Plugins feature in FS/FG CPT graphics.
