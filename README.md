@@ -1,6 +1,6 @@
 # AlarmDB plugin for EasyIO FG/FS/FW controllers
 
-It is a plugin which extends functionality of your EasyIO FG, FS, FW controllers and will make your controllers to have alarm management system the way modern BMS systems do with no extra cost. So more functions with same cost! Happy days!
+It is a plugin which extends functionality of your EasyIO FG, FS, FW controllers and will make your controllers to have alarm management system the way modern BMS systems do with no extra cost. So more functions at the same cost! Happy days!
 
 Sedona Kit made for FG,FS,FW controllers lets you push alarms to server(s) directly from your programming app locally or across the TCP/IP network. Same CPT tool is used so no new programming needs to be to learned.
 
@@ -23,14 +23,12 @@ Alarmdb-for-EasyIO | https://www.gitbook.com/book/automatikas/alarmdb-for-easyio
 # SHORT instructios:
 Copy alarmdb folder via FTP to FS,FG /sdcard/cpt/plugins/
 
-Install Sedona kit 1.0.45.25
+Install Sedona kit 1.0.45.25 on your FG,FS,FW controllers.
 
-If you need demo data copy over easyio.db database
+OPTIONAL: If you need demo data copy over easyio.db database to /sdcard/ !IMPORTANT this will overwrite your database
 
 # Source on GitHub
 For EasyIO devices | https://github.com/automatikas/AlarmDB-EasyIO
-
-Master AlarmDB project | https://github.com/automatikas/AlarmDB
 
 # Project contributors
 Andrius Jasiulionis | automatikas@gmail.com | http://www.ajso.lt
