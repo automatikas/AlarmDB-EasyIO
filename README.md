@@ -29,7 +29,7 @@ Feel free to give me your feedback this will make this project go further and be
 
 OPTIONAL: If you need demo data copy over `easyio.db` database to `/sdcard/` **!IMPORTANT** this will overwrite your database
 
-# Full manual: 
+# Manual: 
 Instructions | [follow this link](https://automatikas.gitbooks.io/alarmdb-for-easyio/content/)
 
 # Source on GitHub
