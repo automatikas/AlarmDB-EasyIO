@@ -17,8 +17,6 @@ Feel free to give me your feedback this will make this project go further and be
 [Andrius Jasiulionis](https://www.linkedin.com/in/andriusjasiulionis/)
 
 2017-October-Planet Earth
-# Documentation on GitBook !IMPORTANT Documentation is done on old model. PLUGIN model manual will come SHORTLY.
-Alarmdb-for-EasyIO | https://www.gitbook.com/book/automatikas/alarmdb-for-easyio/details
 
 # SHORT instructios:
 Copy alarmdb folder via FTP to FS,FG /sdcard/cpt/plugins/
