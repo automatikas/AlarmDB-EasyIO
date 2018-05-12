@@ -183,7 +183,7 @@
 		if(!empty($_inputs['priority'])) {
 			$input['priority'] = $_inputs['priority'];
 		}
-		if(!empty($_inputs['value'])) {
+		if(!empty($_inputs['value']) || $_inputs['value'] = 0 || $_inputs['value'] = "0") {
 			$input['value'] = $_inputs['value'];
 		}
 		if(!empty($_inputs['text'])) {
