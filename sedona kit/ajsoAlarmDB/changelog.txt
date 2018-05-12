@@ -1,10 +1,12 @@
-    
 *** Change-log:
+
+2018-04-09 1.0.45.26
+    AJ Mode3() function edit to handle HTTP response codes and HTTP message body content to console & status slot.
 2017-12-14 1.0.45.25
     AJ logBool pingServer link fixed (thanks to @apexc)
 
 2017-12-14 1.0.45.24
-    AJ Addapt to new folder structure from Vincent. Plugins feature in FS/FG CPT graphics.
+    AJ Adapt to new folder structure from Vincent. Plug-ins feature in FS/FG CPT graphics.
     AJ AlarmDB below version V2.07.4 will not work from kit 1.0.45.24. Use kit 1.0.45.23 for older alarm db versions.
 
 2017-10-20 1.0.45.23
