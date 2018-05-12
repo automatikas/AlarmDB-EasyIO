@@ -335,10 +335,10 @@ $(AlarmDbSettings.ui.loadContainer.divId).ready(function () {
 		if (ids == '') {
 			ids = $(this).parent().parent().parent().parent().parent().parent().attr('id');
 		}
-		var text = $(this).parent().parent().find('#btn-input').val();
+		var text = $(this).parent().parent().find('.note-input').val();
 		if(text !== '') {
 			addNotes(ids,AlarmDbSettings.ui.user.name,text);
-			$(this).parent().parent().find('#btn-input').val('');
+			$(this).parent().parent().find('.note-input').val('');
 		}
 		$('#alarm_list').find('.select').each(function() {
 			$(this).removeClass('active select');
@@ -1271,7 +1271,7 @@ function alarmHtmlRender(alarm) {
 	content += '				</div>';
 	content += '				<div class="panel-footer">';
 	content += '					<div class="input-group">';
-	content += '						<input id="btn-input" type="text" class="form-control input-sm" placeholder="Type your message here...">';
+	content += '						<input id="'+alarm.id+'-note-input" type="text" class="note-input form-control input-sm" placeholder="Type your message here...">';
 	content += '						<span class="input-group-btn">';
 	content += '							<button class="btn btn-warning btn-sm" id="btn-notes">Send</button>';
 	content += '						</span>';
