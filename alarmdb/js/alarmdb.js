@@ -595,10 +595,19 @@ function getDbAlarms() {
 function acknAlarms(ids,user){
 	refreshButtonLoadingStyle(true);
 	var alarmAPI = AlarmDbSettings.api.location;
+	var d = new Date();
+	var time = ''+d.getFullYear()+'-'+zerodate((d.getMonth()+1))+'-'+zerodate(d.getDate())+' '+zerodate(d.getHours())+':'+zerodate(d.getMinutes())+':'+zerodate(d.getSeconds());
+	function zerodate(a) {
+		if(a < 10 ) {
+			a = '0'+ a;
+		}			
+		return a;
+	}
 	var apiComands = {
 			'www-command': 'alarmdb-ackn',
 			'ackn_user': user,
-			'id': ids
+			'id': ids,
+			'adate': time
 		};
 	var headers = $.extend( true, apiComands, AlarmDbSettings.api.headers);
 	$.post(alarmAPI, headers)
@@ -798,11 +807,20 @@ function addNotes(id,user,text) {
 	refreshButtonLoadingStyle(true);
 	var notehtml = '';
 	var alarmAPI = AlarmDbSettings.api.location;
+	var d = new Date();
+	var time = ''+d.getFullYear()+'-'+zerodate((d.getMonth()+1))+'-'+zerodate(d.getDate())+' '+zerodate(d.getHours())+':'+zerodate(d.getMinutes())+':'+zerodate(d.getSeconds());
+	function zerodate(a) {
+		if(a < 10 ) {
+			a = '0'+ a;
+		}			
+		return a
+	}
 	var apiComands = {
 		'www-command': 'alarmdb-noteadd',
 		'id': id,
 		'ackn_user': user,
-		'text': text
+		'text': text,
+		'adate': time
 	};
 	var headers = $.extend( true, apiComands, AlarmDbSettings.api.headers);
 	$.post(alarmAPI, headers)

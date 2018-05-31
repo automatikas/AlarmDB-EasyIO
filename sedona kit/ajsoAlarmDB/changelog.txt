@@ -2,6 +2,7 @@
 
 2018-04-09 1.0.45.26
     AJ Mode3() function edit to handle HTTP response codes and HTTP message body content to console & status slot.
+	
 2017-12-14 1.0.45.25
     AJ logBool pingServer link fixed (thanks to @apexc)
 
