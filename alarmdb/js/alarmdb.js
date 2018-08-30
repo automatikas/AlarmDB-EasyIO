@@ -1289,7 +1289,7 @@ function alarmHtmlRender(alarm) {
 	content += '				</div>';
 	content += '				<div class="panel-footer">';
 	content += '					<div class="input-group">';
-	content += '						<input id="'+alarm.id+'-note-input" type="text" class="note-input form-control input-sm" placeholder="Type your message here...">';
+	content += '						<input type="text" class="note-input form-control input-sm" placeholder="Type your message here...">';
 	content += '						<span class="input-group-btn">';
 	content += '							<button class="btn btn-warning btn-sm" id="btn-notes">Send</button>';
 	content += '						</span>';
