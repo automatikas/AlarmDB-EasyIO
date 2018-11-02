@@ -6,7 +6,7 @@
  * @author     Andrius Jasiulionis <automatikas@gmail.com>
  * @copyright  Copyright (c) 2017, Andrius Jasiulionis
  * @license    MIT
- * @version    2.07.5
+ * @version    2.08
  */
  
 	//ini_set('display_errors',1); error_reporting(E_ALL);
@@ -62,7 +62,7 @@
 	
 	protected function printRes($input,$alarms) {
 		switch($input['format']) {
-			case 'xml-ghcvbcbcb': //No XML export for FS and FG
+			case 'xml-ghcvbcbcb': //No XML export for FS and FG yet
 				if($input['file']){
 					$file_name = date("YmdHis",time()).'_alarmdb_export';
 					header('Content-disposition: attachment; filename='.$file_name.'.xml;');
@@ -119,8 +119,15 @@
 						unset($val['notes']); 
 						fwrite($fp, fputcsv($fp, $val));
 					}
+					//fwrite($fp, json_encode($alarms->returnData));
 					fclose($fp);
-					$link = strstr($path, '/sdcard/');
+					$path = explode(DIRECTORY_SEPARATOR, $path);
+					array_shift($path);
+					array_shift($path);
+					array_shift($path);
+					array_shift($path);
+					array_unshift($path, '../../..');
+					$link = implode(DIRECTORY_SEPARATOR, $path);
 					$responce['export_status'] = 'ready';
 					$responce['date'] = $date_format;
 					$responce['format'] = $format;
@@ -143,7 +150,13 @@
 					$fp = fopen($path, 'w+');
 					fwrite($fp, json_encode($alarms->returnData));
 					fclose($fp);
-					$link = strstr($path, '/sdcard/');
+					$path = explode(DIRECTORY_SEPARATOR, $path);
+					array_shift($path);
+					array_shift($path);
+					array_shift($path);
+					array_shift($path);
+					array_unshift($path, '../../..');
+					$link = implode(DIRECTORY_SEPARATOR, $path);
 					$responce['export_status'] = 'ready';
 					$responce['date'] = $date_format;
 					$responce['format'] = $format;
@@ -169,6 +182,7 @@
 			$authorizeAuthkey = false;
 			$authorizeUser = false;
 			$whiteListCommand = false;
+			//Command white list
 			$whiteListCommand = $a->whitelistCommands($_SERVER["REQUEST_METHOD"],$_inputs['www-command']);
 			if(!$whiteListCommand) {
 				header("HTTP/1.1 403 Forbidden: API Command: ".$_inputs['www-command']." is not supported for ".$_SERVER["REQUEST_METHOD"]." method");
@@ -177,13 +191,20 @@
 				$input['www-command'] = $_inputs['www-command'];
 			}
 		}
+		//API inputs
 		if(!empty($_inputs['id'])) {
 			$input['id'] = $_inputs['id'];
+		}
+		if(!empty($_inputs['dateFrom'])) {
+			$input['dateFrom'] = $_inputs['dateFrom'];
+		}
+		if(!empty($_inputs['dateTo'])) {
+			$input['dateTo'] = $_inputs['dateTo'];
 		}
 		if(!empty($_inputs['priority'])) {
 			$input['priority'] = $_inputs['priority'];
 		}
-		if(!empty($_inputs['value']) || $_inputs['value'] = 0 || $_inputs['value'] = "0") {
+		if(!empty($_inputs['value'])) {
 			$input['value'] = $_inputs['value'];
 		}
 		if(!empty($_inputs['text'])) {
