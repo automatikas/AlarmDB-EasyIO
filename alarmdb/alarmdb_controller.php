@@ -6,7 +6,7 @@
  * @author     Andrius Jasiulionis <automatikas@gmail.com>
  * @copyright  Copyright (c) 2017, Andrius Jasiulionis
  * @license    MIT
- * @version    2.07.2
+ * @version    2.08
  */
  
 //ini_set('display_errors',1); error_reporting(E_ALL); 
@@ -97,9 +97,35 @@ class UI_controler {
 	/*
 	 * Load all listed alarms from database
 	 */
-	public function all(){
-		$alarms= new UI_model();
-		$alarms=$alarms->loadAllAlarms();
+	public function all($input){
+		if(!isset($input['dateTo']) || $input['dateTo']=='' || $input['dateTo']==0){
+			$this->returnData['warning']='dateTo is not set in getAlarm!';
+			return $this->returnData;
+		}
+		if(!isset($input['dateFrom']) || $input['dateFrom']=='' || $input['dateFrom']==0){
+			$this->returnData['warning']='dateFrom is not set in getAlarm!';
+			return $this->returnData;
+		}
+		$format = 'YmdHis';
+		$format2 = 'Y-m-d H:i:s';
+		$date = DateTime::createFromFormat($format, $input['dateTo']);
+		if($date && $date->format($format) === $input['dateTo']) {
+			$dateTo = $date->format($format2);
+		} else {
+			$this->returnData['error']='Wrong dateTo format. Use date format YmdHis';
+				return $this->returnData;
+		}
+		$date = DateTime::createFromFormat($format, $input['dateFrom']);
+		if($date && $date->format($format) === $input['dateFrom']) {
+			$dateFrom = $date->format($format2);
+		} else {
+			$this->returnData['error']='Wrong dateFrom format. Use date format YmdHis';
+				return $this->returnData;
+		}
+		$alarm= new UI_model();
+		$alarm->setDateTo($dateTo);
+		$alarm->setDateFrom($dateFrom);
+		$alarms=$alarm->loadAllAlarms();
 		if($alarms){
 			$this->returnData=$alarms;
 		} else {
