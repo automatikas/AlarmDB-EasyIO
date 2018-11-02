@@ -8,6 +8,18 @@
  * @version    2.07.1
  */
  
+	body.theme-freeboard {
+		background-color: #272727;
+		color: #ccc;
+	}
+	body.theme-gost {
+		background-color: #101214;
+	}
+	
+	.theme-freeboard #alarm_line {
+		color: #333;
+	}
+ 
 .container {
 	/*width: 100%;*/
 	/*margin-top: 15px;*/
@@ -17,6 +29,16 @@
 	margin-bottom: 15px;
 	margin-top: 15px;
 }
+
+	.theme-freeboard a {
+		color: #ccc;
+	}
+	
+	.theme-freeboard .form-control {
+		color: #ccc;
+		background-color: #3d3d3d;
+		border: 1px solid #777;
+	}
 
 .logo {
 	height: 32px;
@@ -56,6 +78,9 @@
 	color: #555; 
 	padding-right: 10px;
 }
+	.theme-freeboard .control_icon {
+		color: #777;
+	}
 
 .active_icon {
 	color: #337ab7;
@@ -79,16 +104,109 @@
 	display: table;
 }
 
+#dateselector_tab {
+	padding-right: 15px;
+	padding-left: 15px;
+	display: table;
+}
+
 #alarm_container .panel {
 	min-height: 200px;
 	padding: 5px 10px 5px 10px;
 }
-
+	.theme-freeboard .panel {
+		background-color: #3d3d3d;
+	}
+	.theme-freeboard .panel-default {
+		border-color: #555;
+	}
+	
 .table_header .glyphicon {
 	color: #555; 
 	padding-right: 5px; 
 	display: inline;
 }
+	.theme-freeboard .select_all_f {
+		color: #ccc;
+	}
+
+	.theme-freeboard .table>tbody>tr.active>td, .theme-freeboard .table>tbody>tr.active>th, .theme-freeboard .table>tbody>tr>td.active, .theme-freeboard .table>tbody>tr>th.active, .theme-freeboard .table>tfoot>tr.active>td, .theme-freeboard .table>tfoot>tr.active>th, .theme-freeboard .table>tfoot>tr>td.active, .theme-freeboard .table>tfoot>tr>th.active, .theme-freeboard .table>thead>tr.active>td, .theme-freeboard .table>thead>tr.active>th, .theme-freeboard .table>thead>tr>td.active, .theme-freeboard .table>thead>tr>th.active {
+		background-color: #333;
+	}
+	.theme-freeboard .table>thead>tr>th {
+		border-bottom: 2px solid #d9534f;
+		color: #fff;
+	}
+	
+	.theme-freeboard .table>tbody>tr>td, .theme-freeboard .table>tbody>tr>th, .theme-freeboard .table>tfoot>tr>td, .theme-freeboard .table>tfoot>tr>th, .theme-freeboard .table>thead>tr>td, .theme-freeboard .table>thead>tr>th {
+		border-top: 1px solid #555;
+	}
+	
+	.theme-freeboard .btn-default {
+		color: #ddd;
+		background-color: #3d3d3d;
+		border-color: #686d65;
+	}
+	.theme-freeboard .btn-default:hover {
+		color: #fff;
+		background-color: #333;
+	}
+	
+	.theme-freeboard .btn-default.active, .theme-freeboard .btn-default:active, .theme-freeboard .open>.dropdown-toggle.btn-default {
+		color: #fff;
+		background-color: #333;
+	}
+	
+.btn.disabled, .btn[disabled], fieldset[disabled] .btn {
+	opacity: .25;
+}
+	
+	.theme-freeboard  .btn.disabled, .theme-freeboard  .btn[disabled], .theme-freeboard  fieldset[disabled] .btn {
+		opacity: .25;
+	}
+	
+	.theme-freeboard  .nav-tabs {
+		border-bottom: 1px solid #4c4c4c;
+	}
+	
+	.theme-freeboard .theme-freeboard .nav-tabs {
+		border-bottom: 1px solid #686d65;
+	}
+	
+	.theme-freeboard .nav-tabs>li.active>a, .theme-freeboard .nav-tabs>li.active>a:focus, .theme-freeboard .nav-tabs>li.active>a:hover {
+		color: #d7d7d7;
+		background-color: #272727;
+		border: 1px solid #4c4c4c;
+		border-bottom-color: transparent;
+	}
+	
+	.theme-freeboard .nav-tabs>li.active>a	{
+		color: #fff;
+	}
+	
+	.theme-freeboard .nav-tabs>li.active>a:hover, .theme-freeboard .nav-tabs>li>a:hover {
+		background-color: #555;
+		border: 1px solid #4c4c4c;
+		color: #fff;
+	}
+	
+	.theme-freeboard .dropdown-menu {
+		background-color: #3d3d3d;
+		border: 1px solid #ccc;
+		border: 1px solid #4c4c4c;
+		border-radius: 4px;
+		-webkit-box-shadow: 0 6px 12px rgba(255,255,255,.175);
+		box-shadow: 0 6px 12px rgba(255,255,255,.175);
+	}
+	
+	.theme-freeboard .dropdown-menu>li>a {
+		color: #d7d7d7;
+	}
+	
+	.theme-freeboard .dropdown-menu>li>a.active, .theme-freeboard .dropdown-menu>li>a:hover, .theme-freeboard .dropdown-menu>.active>a {
+		color: #d7d7d7;
+		background-color: rgba(0,0,0,.075);
+	}
 
 #alarm_line {
 	display: none;
@@ -115,6 +233,23 @@
 	margin: 0 0 0 20px;
 }
 
+	.theme-freeboard  .pagination>li>a, .theme-freeboard  .pagination>li>span {
+		color: #ddd;
+		background-color: #3d3d3d;
+		border-color: #686d65;
+	}
+	.theme-freeboard .pagination>.active>a, .theme-freeboard .pagination>.active>a:focus, .theme-freeboard .pagination>.active>a:hover, .theme-freeboard .pagination>.active>span, .theme-freeboard .pagination>.active>span:focus, .theme-freeboard .pagination>.active>span:hover {
+		color: #fff;
+		background-color: #333;
+		border-color: #686d65;
+	}
+	.theme-freeboard .pagination>.disabled>a, .theme-freeboard .pagination>.disabled>a:focus, .theme-freeboard .pagination>.disabled>a:hover, .theme-freeboard .pagination>.disabled>span, .theme-freeboard .pagination>.disabled>span:focus, .theme-freeboard .pagination>.disabled>span:hover {
+		color: #ddd;
+		background-color: #3d3d3d;
+		border-color: #686d65;
+	}
+	
+
 .notes {
     list-style: none;
     margin: 0;
@@ -138,9 +273,11 @@
 
 .notes li .notes-body p {
     margin: 0;
-    color: #777777;
 	font-size: smaller;
 }
+	.theme-freeboard .notes li .notes-body p {
+		color: #fff;
+	}
 .notes-panel .slidedown .glyphicon, .notes .glyphicon {
     margin-right: 5px;
 }
@@ -165,6 +302,21 @@
     box-shadow: 0 6px 12px rgba(0,0,0,.175);
 }
 
+	.theme-freeboard .notes-panel {
+		background-color: #3d3d3d;
+		-webkit-box-shadow: 0 6px 12px rgba(255,255,255,.175);
+		box-shadow: 0 6px 12px rgba(255,255,255,.175);
+	}
+	
+	.theme-freeboard .text-muted {
+		color: #ccc;
+	}
+	
+	.theme-freeboard .panel-footer {
+		background-color: #3d3d3d;
+		border-top: 1.5px solid #a94442;
+	}
+
 .notes-panel-heading  {
 	position: absolute;
     right: 20px;
@@ -187,6 +339,16 @@
     background-color: #F5F5F5;
 }
 
+	.theme-freeboard ::-webkit-scrollbar-track {
+		-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+		background-color: #777;
+	}
+
+	.theme-freeboard ::-webkit-scrollbar {
+		width: 5px;
+		background-color: #777;
+	}
+
 ::-webkit-scrollbar-thumb {
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
     background-color: #555;
@@ -198,6 +360,9 @@
     height: 50px;
     text-align: center;
 }
+	.theme-freeboard .user-icon-img {
+		background-color: #333;
+	}
 
 .user-icon {
     color: rgb(255, 255, 255);
@@ -205,6 +370,9 @@
     padding-top: 5px;
     padding-left: 5px;
 }
+	.theme-freeboard  .user-icon {
+		color: #777;
+	}
 
 .login-wrapper {	
 	margin-top: 80px;
@@ -317,6 +485,54 @@
     to { transform: scale(1) rotate(360deg);}
 }
 
+
+	.theme-freeboard .daterangepicker {
+		background-color: #272727;
+		color: #777;
+	}
+	
+	.theme-freeboard .ranges li {
+		background-color: #2a2a2a;
+		border: none;
+		color: #d0d0d0;
+	}
+	
+	.theme-freeboard .ranges li.active{
+		background-color: rgba(217, 83, 79, 0.34);
+		border: none;
+		color: #d0d0d0;
+	}
+	
+	.theme-freeboard .ranges li:hover{
+		background-color: rgba(217, 83, 79, 0.34);
+		border: none;
+		color: #d0d0d0;
+	}
+	
+	.theme-freeboard .daterangepicker .calendar-table {
+		background-color: #2a2a2a;
+	}
+	
+	.theme-freeboard .daterangepicker td.week, .daterangepicker th.week {
+		color: #d9534f;
+	}
+
+	.theme-freeboard .daterangepicker td.off, .daterangepicker td.off.in-range, .daterangepicker td.off.start-date, .daterangepicker td.off.end-date {
+		background-color: transparent;
+	}
+	.theme-freeboard .daterangepicker td.in-range {
+		background-color: rgba(217, 83, 79, 0.34);
+	}
+	.theme-freeboard .daterangepicker td.active, .daterangepicker td.active:hover {
+		background-color: #d9534f;
+	}
+	.theme-freeboard .daterangepicker .input-mini.active {
+		border: 1px solid rgba(217, 83, 79, 0.34);
+	}
+	.theme-freeboard .daterangepicker .calendar-table {
+		border: 1px solid #777;
+	}
+
 @media only screen and (min-device-width : 545px) {
 	#controls_search {display:none;}
 	
@@ -329,6 +545,13 @@
 		width: 100%; 
 		display:none;
 		margin-bottom: 10px;
+		padding-top: 10px;
+	}
+	
+	#dateselector_tab { 
+		width: 100%; 
+		margin-bottom: 10px;
+		padding-top: 10px;
 	}
 	
 	#controls_search {
@@ -340,3 +563,143 @@
 	}
 }
 
+@media only screen and (max-width: 880px) {
+    
+	#alarm_container table, 
+	#alarm_container thead, 
+	#alarm_container tbody, 
+	#alarm_container th, 
+	#alarm_container td, 
+	#alarm_container tr { 
+		display: block; 
+	}
+ 
+	#alarm_container thead tr:not(#alarm_line) { 
+		position: absolute;
+		top: -9999px;
+		left: -9999px;
+	}
+ 
+	#alarm_list tr { 
+		border: 1px solid #ddd;
+		margin-bottom: 5px;
+		margin-top: 5px;
+		background-color: #f5f5f5;		
+	}
+		.theme-freeboard #alarm_list tr { 
+			border: 1px solid #555;
+			background-color: #333;			
+		}
+ 
+	#alarm_list td { 
+		border: none;
+		position: relative;
+		padding-left: 50%; 
+		white-space: normal;
+		text-align:left;
+	}
+ 
+	#alarm_list td:before { 
+		position: absolute;
+		top: 6px;
+		left: 6px;
+		width: 45%; 
+		padding-right: 10px; 
+		white-space: nowrap;
+		text-align:right;
+		font-weight: bold;
+	}
+	
+	#alarm_list .col1>.glyphicon {
+		display:none;
+	}
+	
+	.ackn_user {
+		display:none;
+	}
+
+	#alarm_list .col6 {
+		padding-left: 0;
+		text-align: center;
+	}
+
+	#alarm_list td:before { content: attr(data-title); }
+	#alarm_list p:before { content: attr(data-title); }
+	
+	.adate i:after { content: " (" attr( ackn-user-name ) ") "; }
+	
+	.pagination-total {
+		text-align: center;
+		font-size: 12px;
+	}
+	
+	.pagination-detail {
+		text-align: center;
+	}
+	
+	#pagination-list {
+		margin: 0;
+	}
+	
+	.pagination-info {
+		margin-bottom: 15px;
+		font-size: 12px;
+	}
+		
+	.pagination-detail .btn-group-vertical>.btn, .pagination-detail .btn-group>.btn {
+		position: relative;
+		float: left;
+		margin-bottom: 0px;
+		margin-top: 0px;
+		margin-right: 10px;
+	}
+	
+	.alarm_b_delete_disabled .disabled {
+		display: none;
+	}
+	
+	#alarm_container .panel {
+		padding: 0px;
+		border: none;
+		background-color: transparent;
+	}
+	
+	.notes-panel {
+		width: 100%;
+		position: absolute;
+		right: 0px;
+	}
+	
+	#alarm_line {
+		position: inherit;
+		top: 0;
+		left: 0;
+		color:#fff;
+	}
+}
+@media only screen and (max-width: 802px) {
+	#dateselector_tab { 
+		margin-bottom: 10px;
+		padding-top: 10px;
+	}
+}
+	
+@media only screen and (max-width: 450px) {
+	
+	#alarm_list td, #alarm_list p { 
+		border: none;
+		position: relative;
+		white-space: normal;
+		text-align:center;
+		padding-left: 0;
+	}
+	
+	#alarm_list td:before, #alarm_list p:before { 
+		position: relative;
+		padding-right: 10px; 
+		white-space: nowrap;
+		font-weight: bold;
+		top: 0;
+		left: 0;
+	}
+}
