@@ -27,7 +27,7 @@ Feel free to give me your feedback this will make this project go further and be
 
 4. Install ajsoAlarmDB Sedona kit `1.0.45.25` or higher on your FG,FS,FW controllers.
 
-OPTIONAL: If you need demo data copy over `easyio.db` database to `/sdcard/` **!IMPORTANT** this will overwrite your database
+OPTIONAL: If you need demo data copy over `easyio.db` database to `/sdcard/` **IMPORTANT!!!** this will overwrite your database
 
 # Manual: 
 Instructions | [follow this link](https://automatikas.gitbooks.io/alarmdb-for-easyio/content/)
