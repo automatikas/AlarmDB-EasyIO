@@ -6,7 +6,7 @@
  * @author     Andrius Jasiulionis <automatikas@gmail.com>
  * @copyright  Copyright (c) 2017, Andrius Jasiulionis
  * @license    MIT
- * @version    2.07.2
+ * @version    2.08
  */
  
 //ini_set('display_errors',1); error_reporting(E_ALL); 
@@ -19,6 +19,8 @@ class UI_model {
 	public $id=0;
 	public $ids;
 	public $date;
+	public $dateFrom;
+	public $dateTo;
 	public $priority;
 	public $value;
 	public $text;
@@ -64,6 +66,16 @@ class UI_model {
 	
 	public function setAdate($adate){
 		$this->adate=$adate;
+		return true;
+	}
+	
+	public function setDateFrom($dateFrom){
+		$this->dateFrom=$dateFrom;
+		return true;
+	}
+	
+	public function setDateTo($dateTo){
+		$this->dateTo=$dateTo;
 		return true;
 	}
 	
@@ -128,9 +140,13 @@ class UI_model {
 	 */
 	public function loadAllAlarms(){
 		$db = DBConn::instance()->history_db();
-		$stmt = $db->prepare('SELECT * FROM alarms ORDER BY date DESC LIMIT :limit');
+		$dateFrom=$this->dateFrom;
+		$dateTo=$this->dateTo;
+		$stmt = $db->prepare('SELECT * FROM alarms WHERE date BETWEEN :dateFrom AND :dateTo ORDER BY date DESC LIMIT :limit');
 		$limit = 10000;
 		$stmt->bindValue(':limit', $limit);
+		$stmt->bindValue(':dateFrom', $dateFrom);
+		$stmt->bindValue(':dateTo', $dateTo);
 		$alarms=array();
 		$stmt->execute();
 		$stmt->setFetchMode(PDO::FETCH_ASSOC);
@@ -152,6 +168,10 @@ class UI_model {
 				$alarm['notes']=$notes['notes'][$row['id']];
 			}
 			$alarms['alarms'][]=$alarm;
+		}
+		$totals = $this->readTotal();
+		if(!empty($totals)) {
+			$alarms['totals'] = $totals;
 		}
 		return $alarms;
 	}
