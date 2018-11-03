@@ -215,12 +215,12 @@ var AlarmDbSettings = {
 					title: "User menu",
 					links: {
 						myAcount: {
-						enabled: true,
+						enabled: false,
 						title: "My account",
 						href: "#"
 						},
 						apiSettings: {
-						enabled: true,
+						enabled: false,
 						title: "API settings",
 						href: "#"
 						}
