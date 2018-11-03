@@ -1,7 +1,7 @@
 var AlarmDbSettings = {
 		title: "AlarmDB API UI core",
 		href: "https://github.com/automatikas/AlarmDB/releases/tag/",
-		version: "v2.07.5",
+		version: "v2.08",
 		author: "Andrius Jasiulionis <automatikas@gmail.com>",
 		copyright: "Copyright (c) 2017, Andrius Jasiulionis",
 		license: "MIT",
@@ -28,6 +28,132 @@ var AlarmDbSettings = {
 			search: {
 				enabled: true,
 				title: "Search"
+			},
+			dateselector: {
+				enabled: true,
+				period: "day",
+				locale: {
+					applyLabel: 'OK',
+					cancelLabel: 'Cancel',
+					fromLabel: 'From',
+					toLabel: 'To',
+					separator: ' - ',
+					customRangeLabel: 'Custom range',
+					daysOfWeek: ['Su','Mo','Tu','We','Th','Fr','Sa'],
+					monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+					firstDay: 1
+				},
+				fixedRanges: {
+					hour: {
+						'Today': [moment().startOf('day'), moment()],
+						'Yesterday': [moment().subtract(1, 'day').startOf('day'), moment().subtract(1, 'day').endOf('day')],
+						'Last 24 hours': [moment().subtract(24, 'hours'), moment()],
+						'Last 7 days': [moment().subtract(7, 'days'), moment()]
+					},
+					day: {
+						'Last 2 days': [moment().subtract(2, 'days'), moment()],
+						'Last 7 days': [moment().subtract(7, 'days'), moment()],
+						'Last 30 days': [moment().subtract(30, 'days'), moment()],
+						'This month': [moment().startOf('month'), moment().endOf('month')],
+						'Last month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+					},
+					week: {
+					   'Last 12 months': [moment().subtract(12, 'month'), moment()],
+					   'Last 24 months': [moment().subtract(24, 'month'), moment()],
+					   'This year': [moment().startOf('year'), moment()],
+					   'Last year': [moment().subtract(1, 'year').startOf('year'), moment().subtract(1, 'year').endOf('year')]
+					},
+					month: {
+					   'Last 12 months': [moment().subtract(12, 'month'), moment()],
+					   'Last 24 months': [moment().subtract(24, 'month'), moment()],
+					   'This year': [moment().startOf('year'), moment()],
+					   'Last year': [moment().subtract(1, 'year').startOf('year'), moment().subtract(1, 'year').endOf('year')]
+					}
+				},
+				hour: {
+					format: 'YYYYMMDDHHmmss',
+					startDate: moment().startOf('day'),
+					endDate: moment(),
+					minDate: '01/01/2017',
+					maxDate: moment(),
+					dateLimit: { days: 7 },
+					showDropdowns: true,
+					showWeekNumbers: true,
+					timePicker: true,
+					timePickerIncrement: 1,
+					timePicker24Hour: true,
+					ranges: {},
+					opens: 'left',
+					drops: 'down',
+					buttonClasses: ['btn', 'btn-sm'],
+					applyClass: 'btn-success',
+					cancelClass: 'btn-default',
+					locale: {},
+					autoUpdateInput: true
+				},
+				day:  {
+					format: 'YYYYMMDDHHmmss',
+					startDate: moment().subtract(2, 'days').startOf('day'),
+					endDate: moment().endOf('day'),
+					minDate: '01/01/2017',
+					maxDate: moment(),
+					dateLimit: { days: 60 },
+					showDropdowns: true,
+					showWeekNumbers: true,
+					timePicker: false,
+					timePickerIncrement: 1,
+					timePicker24Hour: true,
+					ranges: {},
+					opens: 'left',
+					drops: 'down',
+					buttonClasses: ['btn', 'btn-sm'],
+					applyClass: 'btn-primary',
+					cancelClass: 'btn-default',
+					locale: {},
+					autoUpdateInput: true
+				},
+				week: {
+					format: 'YYYYMMDDHHmmss',
+					startDate: moment().startOf('year'),
+					endDate: moment(),
+					minDate: '01/01/2017',
+					maxDate: moment(),
+					dateLimit: { years: 10 },
+					showDropdowns: true,
+					showWeekNumbers: true,
+					timePicker: false,
+					timePickerIncrement: 1,
+					timePicker24Hour: true,
+					ranges: {},
+					opens: 'left',
+					drops: 'down',
+					buttonClasses: ['btn', 'btn-sm'],
+					applyClass: 'btn-primary',
+					cancelClass: 'btn-default',
+					locale: {},
+					autoUpdateInput: true
+				},
+				month: {
+					format: 'YYYYMMDDHHmmss',
+					startDate: moment().startOf('year'),
+					endDate: moment(),
+					minDate: '01/01/2017',
+					maxDate: moment(),
+					dateLimit: { years: 10 },
+					showDropdowns: true,
+					showWeekNumbers: true,
+					timePicker: false,
+					timePickerIncrement: 1,
+					timePicker24Hour: true,
+					ranges: {},
+					opens: 'left',
+					drops: 'down',
+					buttonClasses: ['btn', 'btn-sm'],
+					applyClass: 'btn-primary',
+					cancelClass: 'btn-default',
+					locale: {},
+					autoUpdateInput: true
+				}
 			},
 			controlBar: {
 				enabled: true,
@@ -76,7 +202,7 @@ var AlarmDbSettings = {
 						title: "CSV"
 						},{
 						format: "xml",
-						enabled: true,
+						enabled: false,
 						title: "XML"
 						},{
 						format: "json",
@@ -85,7 +211,7 @@ var AlarmDbSettings = {
 					}]
 				},
 				usermenu: {
-					enabled: true,
+					enabled: false,
 					title: "User menu",
 					links: {
 						myAcount: {
@@ -123,19 +249,36 @@ var AlarmDbSettings = {
 						min: 201,
 						max: 250
 					}
+				},
+				action: {
+					buttons: {
+						ackn: {
+							enabled: true
+						},
+						delete: {
+							enabled: true
+						},
+						notes: {
+							enabled: true
+						}
+					}
 				}
 			},
 			tabs: {
 				active: { 
 					title: "Active alarms",
+					enabled: true
 				},
 				log: { 
 					title: "Alarm log",
-				}
+					enabled: true
+				},
+				display: true
 			},
 			logo: {
 				img: "img/logo.png",
-				alt: "AlarmDB"
+				alt: "AlarmDB",
+				display: true
 			},
 			user: {
 				name: "User"
@@ -480,11 +623,16 @@ function getDbAlarms() {
 	var content = '';
 	var alarmAPI = AlarmDbSettings.api.location;
 	var apiComands = {'www-command': 'alarmdb-uiall'};
+	if (AlarmDbSettings.ui.dateselector.enabled === true) {
+		apiComands = {'www-command': 'alarmdb-all'};
+		AlarmDbSettings.api.headers.dateFrom = $('#dateselector_tab').find(".date-range").attr("date-range-from");
+		AlarmDbSettings.api.headers.dateTo = $('#dateselector_tab').find(".date-range").attr("date-range-to");
+	}
 	var headers = $.extend( true, apiComands, AlarmDbSettings.api.headers);
 	$.get( alarmAPI, headers)
     .done(function(data) {
 		var r1=0;
-		if (typeof(data.active_alarms) != 'undefined') {
+		if (typeof(data.active_alarms) != 'undefined' && AlarmDbSettings.ui.tabs.active.enabled === true && AlarmDbSettings.ui.tabs.display === true) {
 			AlarmDbSettings.internals.active_content = '';
 			$.each( data.active_alarms, function( i, alarm ) {
 				var alarm = data.active_alarms[r1];
@@ -546,6 +694,7 @@ function getDbAlarms() {
 				updateLogTableRowList(AlarmDbSettings.internals.page_size, AlarmDbSettings.internals.active_page);
 			}
 		} else {
+			$('#alarm_list').html( '' );
 			AlarmDbSettings.internals.log_content = '';
 			AlarmDbSettings.internals.active_content = '';
 			AlarmDbSettings.internals.display_log_rows = 0;
@@ -1040,9 +1189,9 @@ function updateRowAckn(row,alarm) {
 		row.find('.ackn_user').html('<small><i>'+alarm.ackn_user+'</small></i>');
 	}
 	if (row.find('.adate').length == 0) {
-		row.find('.dates').append('<p class="adate"><span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span><small><i>'+alarm.adate+'</small></i></p>');
+		row.find('.dates').append('<p class="adate"><span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span><i ackn-user-name="'+alarm.ackn_user+'"><small>'+alarm.adate+'</small></i></p>');
 	} else {
-		row.find('.adate').html('<span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span><small><i>'+alarm.adate+'</small></i>');
+		row.find('.adate').html('<span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span><i ackn-user-name="'+alarm.ackn_user+'"><small>'+alarm.adate+'</small></i>');
 	}
 	row.find('.alarm_b_ackn').removeClass('alarm_b_ackn').addClass('alarm_b_ackn_disabled disabled');
 	row.find('.alarm_b_delete_disabled').removeClass('alarm_b_delete_disabled disabled').addClass('alarm_b_delete');
@@ -1144,6 +1293,8 @@ function search_table(searchTerm) {
 		});
 	}
 	var jobCount = $('.searchable tr[style="display: table-row;"]').length;
+	var jobCount2 = $('.searchable tr[style="display: block;"]').length;
+	jobCount = jobCount+jobCount2;
 	AlarmDbSettings.internals.display_rows = jobCount;
 	if(jobCount == '0') {
 		pushTableAlert('warning', 'No records are matching search keywords...');
@@ -1243,40 +1394,52 @@ function alarmHtmlRender(alarm) {
 			}
 		}
 	}
-	
-	content += '<tr id="'+alarm.id+'" class="alarmrow" ackn_user="'+alarm.ackn_user+'" ackn="'+alarm.ackn+'" adate="'+alarm.adate+'"><td class="col1"><span class="glyphicon glyphicon-unchecked select_f" aria-hidden="true"></span><span class="label label-'+alarm_class+' tags">'+alarm.priority+'</span></td>';	
+
+	content += '<tr id="'+alarm.id+'" class="alarmrow" ackn_user="'+alarm.ackn_user+'" ackn="'+alarm.ackn+'" adate="'+alarm.adate+'">';
+	content += '<td class="col1" data-title="Priority:"><span class="glyphicon glyphicon-unchecked select_f" aria-hidden="true"></span><span class="label label-'+alarm_class+' tags">'+alarm.priority+'</span></td>';
 	var ackn = '';
 	var ackn_user = '';
 	var ackn_b_style = 'alarm_b_ackn';
 	var alarm_b_style = 'alarm_b_delete_disabled disabled';
+	if (AlarmDbSettings.ui.table.action.buttons.ackn.enabled === false) {
+		alarm_b_style = 'alarm_b_delete';
+	}
 	if (alarm.ackn == 'true' && alarm.ackn != null && alarm.adate != null) {
 		ackn_b_style = 'alarm_b_ackn_disabled disabled';
 		alarm_b_style = 'alarm_b_delete';
-		ackn = '<p class="adate"><span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span><small><i>'+alarm.adate+'</i></small></p>';
+		ackn = '<p class="adate"><span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span><i ackn-user-name="'+alarm.ackn_user+'"><small>'+alarm.adate+'</i></small></p>';
 		if (ackn_user != null) {
-			ackn_user = '<p class="ackn_user"><small><i>'+alarm.ackn_user+'</i></small></p>';
+			ackn_user = '<p class="ackn_user" data-title="User:"><i><small>'+alarm.ackn_user+'</i></small></p>';
 		}
 	}
-	content += '<td class="dates col2"><p class="alarm_date"><span class="glyphicon glyphicon glyphicon-bell" aria-hidden="true"></span><small>'+alarm.date+'</small></p>'+ackn+'</td>';
-	content += '<td class="col3">';
+	content += '<td class="dates col2" data-title="Dates:"><p class="alarm_date"><span class="glyphicon glyphicon glyphicon-bell" aria-hidden="true"></span><small>'+alarm.date+'</small></p>'+ackn+'</td>';
+	content += '<td class="col3" data-title="Values:">';
 	var values = alarm.value.split(',');
 	$.each(values, function(index, value) {
 		content += '<span class="label label-'+alarm_class+' tags">'+value+'</span>';
 	});
 	content += '</td>';
 	var attachment = '';
-	content += '<td class="alarm_text col4"><p class="text">'+alarm.text+' '+attachment+'</p>'+ackn_user+'</td><td class="col5">';
+	content += '<td class="alarm_text col4" data-title="Alarm message:"><p class="text">'+alarm.text+' '+attachment+'</p>'+ackn_user+'</td><td class="col5" data-title="Tags:">';
 	var tags = alarm.tags.split(',');
 	$.each(tags, function(index, value) {
 		content += '<span class="label label-info tags">'+value+'</span>';
 	});
-	content += '</td><td class="col6"><div class="btn-group" role="group" aria-label="action"><button type="button" class="controls btn btn-default '+ackn_b_style+'"><span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span></button><button type="button" class="controls btn btn-default '+alarm_b_style+'"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>';
+	content += '</td><td class="col6"><div class="btn-group" role="group" aria-label="action">';
+	if (AlarmDbSettings.ui.table.action.buttons.ackn.enabled === true) {
+		content += '<button type="button" class="controls btn btn-default '+ackn_b_style+'"><span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>';
+	}
+	if (AlarmDbSettings.ui.table.action.buttons.delete.enabled === true) {
+		content += '<button type="button" class="controls btn btn-default '+alarm_b_style+'"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>';
+	}
 	if (alarm.notes != null) {
 		notes_b_style = "active_icon";
 	} else {
 		notes_b_style = "disabled_icon";
 	}
-	content += '	<button type="button" class="btn btn-default alarm_b_notes" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-comment '+notes_b_style+' aria-hidden="true"></span></button>';
+	if (AlarmDbSettings.ui.table.action.buttons.notes.enabled === true) {
+		content += '	<button type="button" class="btn btn-default alarm_b_notes" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-comment '+notes_b_style+' aria-hidden="true"></span></button>';
+	}
 	content += '			</div>';
 	content += '			<div class="notes-panel panel-default hide">';
 	content += '				<div class="notes-panel-heading">';
@@ -1479,17 +1642,44 @@ jQuery.each( [ 'put', 'delete' ], function( i, method ) {
   };
 });
 
+$(window).on('resize', function() {
+    if($(window).width() < 880) {
+        $('.searchable tr[style="display: table-row;"]').each(function(e){
+			$(this).css('display', 'block');
+		});
+		$('#alarm_line').css({'display':'block', 'position':'inherit'});
+    } else {
+		$('.searchable tr[style="display: block;"]').each(function(e){
+			$(this).css('display', 'table-row');
+		});
+		$('#alarm_line').css({'display':'table-row', 'position':''});
+	}
+});
+
 function loadAlarmDB(){
 	var settings = validateSettings(AlarmDbSettings);
 	var bStyle = ''
-	
 	var template = '<div class="header">';
-	template += '			<ul class="nav nav-tabs">';
-	template += '				<li id="active_alarm_tab" class="controls"><a data-toggle="tab" href="#"><span class="glyphicon glyphicon-bell" aria-hidden="true"></span> '+settings.ui.tabs.active.title+'</a></li>';
-	template += '				<li id="alarm_log_tab" class="controls active"><a data-toggle="tab" href="#"><span class="glyphicon glyphicon-list" aria-hidden="true"></span> '+settings.ui.tabs.log.title+'</a></li>';
-	template += '				<a class="pull-right" href="'+AlarmDbSettings.href+AlarmDbSettings.version+'" target="_blank"><img src="'+settings.ui.logo.img+'" class="logo pull-right" alt="'+settings.ui.logo.alt+' '+AlarmDbSettings.version+'">';
-	template += '				<i class="logo-version">'+AlarmDbSettings.version+'</i>';
-	template += '				</a>';
+	if (settings.ui.tabs.display === false) {
+		template += '			<ul class="nav nav-tabs hide">';
+	} else {
+		template += '			<ul class="nav nav-tabs">';
+	}
+	var activeDisplay = '';
+	if (settings.ui.tabs.active.enabled === false) {
+		activeDisplay = ' hide';
+	}
+	template += '			<li id="active_alarm_tab" class="controls'+activeDisplay+'"><a data-toggle="tab" href="#"><span class="glyphicon glyphicon-bell" aria-hidden="true"></span> '+settings.ui.tabs.active.title+'</a></li>';
+	activeDisplay = '';
+	if (settings.ui.tabs.log.enabled === false) {
+		activeDisplay = 'hide';
+	}
+	template += '			<li id="alarm_log_tab" class="controls active '+activeDisplay+'"><a data-toggle="tab" href="#"><span class="glyphicon glyphicon-list" aria-hidden="true"></span> '+settings.ui.tabs.log.title+'</a></li>';
+	if (settings.ui.logo.display === true) {
+		template += '				<a class="pull-right" href="'+settings.href+settings.version+'" target="_blank"><img src="'+settings.ui.logo.img+'" class="logo pull-right" alt="'+settings.ui.logo.alt+' '+settings.version+'">';
+		template += '				<i class="logo-version">'+settings.version+'</i>';
+		template += '				</a>';
+	}
 	template += '			</ul>';
 	template += '		</div>';
 	template += '		<div class="tab-content">';
@@ -1565,6 +1755,14 @@ function loadAlarmDB(){
 		template += '				</span>';
 		template += '			</div>';
 	}
+	if (settings.ui.dateselector.enabled === true) {	
+		template  += '				<div id="dateselector_tab" class="input-group col-xs-6 col-sm-4 col-md-3 pull-right">';
+		template  += '					<input type="text" class="form-control date-range-input"  value="" readonly/>';
+		template += '					<span class="input-group-btn">';
+		template += '						<button name="date-range" class="btn btn-default date-range" type="button"><span class="glyphicon glyphicon-calendar"></span></button>';
+		template += '					</span>';
+		template  += '				</div>';
+	}
 	template += '</div>';
 	template += '			<div class="tab-pane fade in active">';
 	template += '				<div class="row">';
@@ -1628,6 +1826,22 @@ function loadAlarmDB(){
 	$(AlarmDbSettings.ui.loadContainer.divId).html('');
 	$(AlarmDbSettings.ui.loadContainer.divId).append(template);
 	AlarmDbSettings.internals.page_size = $('.pagination-detail').find('.page-size').text();
+	if (settings.ui.dateselector.enabled === true) {
+		var period = AlarmDbSettings.ui.dateselector.period;
+		$('#dateselector_tab').find(".date-range").daterangepicker(datepickerSettings(period))
+		.on('apply.daterangepicker', function(ev, a) {
+			$(this).parent().parent().find('.date-range-input').attr("value", a.startDate.format('DD/MM/YYYY') + ' - ' + a.endDate.format('DD/MM/YYYY'));
+			$(this).attr("date-range-from", a.startDate.format("YYYYMMDDHHmmss"));
+			$(this).attr("date-range-to", a.endDate.format("YYYYMMDDHHmmss"));
+			renderLogin();
+			getDbAlarms();
+			return;
+		});
+		var a = datepickerSettings(period);
+		$('#dateselector_tab').find('.date-range-input').attr("value", a.startDate.format('DD/MM/YYYY') + ' - ' + a.endDate.format('DD/MM/YYYY'));
+		$('#dateselector_tab').find(".date-range").attr("date-range-from", a.startDate.format("YYYYMMDDHHmmss"));
+		$('#dateselector_tab').find(".date-range").attr("date-range-to", a.endDate.format("YYYYMMDDHHmmss"));
+	}
 	renderLogin();
 	getDbAlarms();
 	return;
@@ -1635,9 +1849,16 @@ function loadAlarmDB(){
 
 function updatePaginationTotal(active,ackn,notes) {
 	var content = '<i>'+AlarmDbSettings.ui.footer.totals.title+'</i>';
-	content += '<span class="glyphicon glyphicon-bell" aria-hidden="true"></span><i>'+active+'</i>';
-	content += '<span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span><i>'+ackn+'</i>';
-	content += '<span class="glyphicon glyphicon-comment active_icon" aria-hidden="true"></span><i>'+notes+'</i>';
+	if (AlarmDbSettings.ui.table.action.buttons.ackn.enabled === false) {
+		var total = active+ackn;
+		content += '<span class="glyphicon glyphicon-bell" aria-hidden="true"></span><i>'+total+'</i>';
+	} else {
+		content += '<span class="glyphicon glyphicon-bell" aria-hidden="true"></span><i>'+active+'</i>';
+		content += '<span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span><i>'+ackn+'</i>';
+	}
+	if (AlarmDbSettings.ui.table.action.buttons.notes.enabled === true) {
+		content += '<span class="glyphicon glyphicon-comment active_icon" aria-hidden="true"></span><i>'+notes+'</i>';
+	}
 	$('.pagination-total').html('');
 	$('.pagination-total').append(content);
 	return true;
@@ -1666,4 +1887,38 @@ function getCookies(name){
 
 function confirmAlert(text) {
 	return confirm(text);
+}
+
+function datepickerSettings(period) {
+	var _period = "";
+	
+	var hour = AlarmDbSettings.ui.dateselector.hour;
+	hour.locale = AlarmDbSettings.ui.dateselector.locale;
+	hour.ranges = AlarmDbSettings.ui.dateselector.fixedRanges.hour;
+	
+	var day = AlarmDbSettings.ui.dateselector.day;
+	day.locale = AlarmDbSettings.ui.dateselector.locale;
+	day.ranges = AlarmDbSettings.ui.dateselector.fixedRanges.day;
+	
+	var week = AlarmDbSettings.ui.dateselector.week;
+	week.locale = AlarmDbSettings.ui.dateselector.locale;
+	week.ranges = AlarmDbSettings.ui.dateselector.fixedRanges.week;
+	
+	var month = AlarmDbSettings.ui.dateselector.month;
+	month.locale = AlarmDbSettings.ui.dateselector.locale;
+	month.ranges = AlarmDbSettings.ui.dateselector.fixedRanges.month;
+	
+	if(period == 'hour') {
+		_period = hour;
+	}
+	if(period == 'day') {
+		_period = day;
+	}
+	if(period == 'week') {
+		_period = week;
+	}
+	if(period == 'month') {
+		_period = month;
+	}
+	return _period;
 }
