@@ -164,7 +164,10 @@
 	.theme-freeboard  .btn.disabled, .theme-freeboard  .btn[disabled], .theme-freeboard  fieldset[disabled] .btn {
 		opacity: .25;
 	}
-	
+
+.nav-tabs {
+	min-height: 42px;
+}	
 	.theme-freeboard  .nav-tabs {
 		border-bottom: 1px solid #4c4c4c;
 	}
