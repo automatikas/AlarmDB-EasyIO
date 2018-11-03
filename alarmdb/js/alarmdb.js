@@ -6,15 +6,15 @@ var AlarmDbSettings = {
 		copyright: "Copyright (c) 2017, Andrius Jasiulionis",
 		license: "MIT",
 		api: {
-			location: "api/index.php",
+			location: "alarmdb_exporter.php",
 			auth: {
 				login: {
-					href: "api/login.php",
+					href: "",
 					headers: {
 					}
 				},
 				logout: {
-					href: "api/logout.php",
+					href: "",
 				}
 			},
 			headers: {
