@@ -126,12 +126,18 @@
 					array_shift($path);
 					array_shift($path);
 					array_shift($path);
-					array_unshift($path, '../../..');
+					$platformName = platformName();
+					if($platformName = 'FS'){
+						array_unshift($path, '../../../..');
+					} else {
+						array_unshift($path, '../../..');
+					}
 					$link = implode(DIRECTORY_SEPARATOR, $path);
 					$responce['export_status'] = 'ready';
 					$responce['date'] = $date_format;
 					$responce['format'] = $format;
 					$responce['href'] = $link;
+					$responce['platform'] = $platformName;
 					header('Content-type: application/json;charset=utf-8');
 					echo json_encode($responce);
 					break;
@@ -155,12 +161,18 @@
 					array_shift($path);
 					array_shift($path);
 					array_shift($path);
-					array_unshift($path, '../../..');
+					$platformName = platformName();
+					if($platformName = 'FS'){
+						array_unshift($path, '../../../..');
+					} else {
+						array_unshift($path, '../../..');
+					}
 					$link = implode(DIRECTORY_SEPARATOR, $path);
 					$responce['export_status'] = 'ready';
 					$responce['date'] = $date_format;
 					$responce['format'] = $format;
 					$responce['href'] = $link;
+					$responce['platform'] = $platformName;
 					header('Content-type: application/json;charset=utf-8');
 					echo json_encode($responce);
 					break;
