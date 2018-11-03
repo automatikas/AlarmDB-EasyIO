@@ -140,8 +140,8 @@ class UI_model {
 	 */
 	public function loadAllAlarms(){
 		$db = DBConn::instance()->history_db();
-		$dateFrom=$this->dateFrom;
-		$dateTo=$this->dateTo;
+		$dateFrom = $this->dateFrom;
+		$dateTo = $this->dateTo;
 		$stmt = $db->prepare('SELECT * FROM alarms WHERE date BETWEEN :dateFrom AND :dateTo ORDER BY date DESC LIMIT :limit');
 		$limit = 10000;
 		$stmt->bindValue(':limit', $limit);
@@ -168,6 +168,39 @@ class UI_model {
 				$alarm['notes']=$notes['notes'][$row['id']];
 			}
 			$alarms['alarms'][]=$alarm;
+		}
+		$stmt = $db->prepare('SELECT * FROM alarms WHERE ackn IS NOT :value AND date BETWEEN :dateFrom AND :dateTo ORDER BY date DESC LIMIT :limit');
+		$stmt->bindValue(':value', 'true');
+		$stmt->bindValue(':dateFrom', $dateFrom);
+		$stmt->bindValue(':dateTo', $dateTo);
+		$stmt->bindValue(':limit', $limit);
+		$stmt->execute();
+		$stmt->setFetchMode(PDO::FETCH_ASSOC);
+		$activeAlarms = array();
+		while($row = $stmt->fetch()){
+			$alarm=array();
+			$alarm['id']=$row['id'];
+			$alarm['date']=$row['date'];
+			$alarm['priority']=$row['priority'];
+			$alarm['value']=$row['value'];
+			$alarm['text']=$row['text'];
+			$alarm['tags']=$row['tags'];
+			$alarm['ackn']=$row['ackn'];
+			$alarm['ackn_user']=$row['ackn_user'];
+			$alarm['adate']=$row['adate'];
+			$alarm['attr']=unserialize($row['attr']);
+			$alarm['attachment']=unserialize($row['attachment']);
+			$notes = $this->loadAllNotes($row['id']);
+			if(isset($notes['notes'])) {
+				$alarm['notes']=$notes['notes'][$row['id']];
+			}
+			$activeAlarms[]=$alarm;
+		}
+		if(empty($alarms['alarms'])) {
+			$alarms['info'] = 'No alarms found in this period';
+		}
+		if(!empty($activeAlarms)) {
+			$alarms['active_alarms'] = $activeAlarms;
 		}
 		$totals = $this->readTotal();
 		if(!empty($totals)) {
@@ -240,7 +273,7 @@ class UI_model {
 	}
 	
 		/**
-	 * This acknoledges the alarms in database
+	 * This acknowledges the alarms in database
 	 */
 	public function acknAlarm($id,$ackn_user,$now){
 		if($id!='' && $ackn_user!='' && $now!=''){
@@ -393,6 +426,8 @@ class UI_model {
 		}
 		if(!empty($allAlarms)) {
 			$responseArray['alarms'] = $allAlarms;
+		} else {
+			$responseArray['info'] = 'No alarms found';
 		}
 		if(!empty($activeAlarms)) {
 			$responseArray['active_alarms'] = $activeAlarms;
