@@ -722,6 +722,9 @@ function getDbAlarms() {
 		if (typeof(data.totals) != 'undefined') {
 			updatePaginationTotal(data.totals.active,data.totals.ackn,data.totals.notes);	
 		}
+		if (typeof(data.sessionExpired) == 'undefined') {
+			window.location.reload(true);
+		}
 		refreshButtonLoadingStyle(false);
 		return true;
     })

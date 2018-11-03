@@ -179,6 +179,9 @@
 				}
 				header('Content-type: application/json;charset=utf-8');
 				header('Access-Control-Allow-Origin: *');
+				$a = new BaseController();
+				$session = $a->isSessionExpired();
+				$alarms->returnData['sessionExpired'] = $session;
 				echo json_encode($alarms->returnData);
 				break;
 		}
