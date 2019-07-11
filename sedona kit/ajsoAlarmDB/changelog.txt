@@ -1,8 +1,10 @@
 *** Change-log:
 
+2019-07-11 1.0.45.26 (deprecated) version is crashing sedona VM, rollback to 1.0.45.25 as stable release.
+
 2018-04-09 1.0.45.26
     AJ Mode3() function edit to handle HTTP response codes and HTTP message body content to console & status slot.
-	
+
 2017-12-14 1.0.45.25
     AJ logBool pingServer link fixed (thanks to @apexc)
 
@@ -38,7 +40,7 @@
     AJ   getTags action. Gets up to 3 parent level component names (up to APP level) and saves them as point tags. 
 
 2017-09-27 1.0.45.47.19 
-    AJ   Priority range changed 0-300 to support default grey colour, comments clean-up, default text values, Minimum onChange delay 1s
+    AJ   Priority range changed 0-300 to support default gray color, comments clean-up, default text values, Minimum onChange delay 1s
 
 2017-09-24 1.0.45.47.1
     AJ   Initial build

@@ -1,0 +1,7 @@
+{
+  "label": "AlarmDB",
+  "indexFile": "index.php",
+  "enabled": true,
+  "openNewPage": true,
+  "supportedPlatforms": ["FG", "FG+", "FS", "FW"]
+}

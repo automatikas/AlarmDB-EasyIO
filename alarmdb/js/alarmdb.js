@@ -1,7 +1,7 @@
 var AlarmDbSettings = {
 		title: "AlarmDB API UI core",
 		href: "https://github.com/automatikas/AlarmDB/releases/tag/",
-		version: "v2.08",
+		version: "v2.08.2",
 		author: "Andrius Jasiulionis <automatikas@gmail.com>",
 		copyright: "Copyright (c) 2017, Andrius Jasiulionis",
 		license: "MIT",
@@ -93,7 +93,7 @@ var AlarmDbSettings = {
 				},
 				day:  {
 					format: 'YYYYMMDDHHmmss',
-					startDate: moment().subtract(2, 'days').startOf('day'),
+					startDate: moment().subtract(30, 'days').startOf('day'),
 					endDate: moment().endOf('day'),
 					minDate: '01/01/2017',
 					maxDate: moment(),
@@ -300,7 +300,7 @@ var AlarmDbSettings = {
 			search_active: false
 		}
 };
- 
+
 $(AlarmDbSettings.ui.loadContainer.divId).ready(function () {
 	
 	$(AlarmDbSettings.ui.loadContainer.divId).on('click', '#controls_refresh', function(e) {

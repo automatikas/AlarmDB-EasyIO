@@ -45,7 +45,7 @@ $u = $controller->curUser();
 		<script type="text/javascript" src="../alarmdb/js/daterangepicker.js"></script>
 		<script type="text/javascript" src="../alarmdb/js/alarmdb.js"></script>
 	</head>
-	<body>
+	<body class="theme-freeboard">
 	
 		<div id ="myAlarmContainer" class="container-fluid"></div>
 		
