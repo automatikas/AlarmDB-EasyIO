@@ -6,7 +6,7 @@
  * @author     Andrius Jasiulionis <automatikas@gmail.com>
  * @copyright  Copyright (c) 2017, Andrius Jasiulionis
  * @license    MIT
- * @version    2.08
+ * @version    2.08.3
  */
  
 //ini_set('display_errors',1); error_reporting(E_ALL); 
@@ -21,6 +21,7 @@ class UI_model {
 	public $date;
 	public $dateFrom;
 	public $dateTo;
+	public $activeAlarmFilter;
 	public $priority;
 	public $value;
 	public $text;
@@ -76,6 +77,11 @@ class UI_model {
 	
 	public function setDateTo($dateTo){
 		$this->dateTo=$dateTo;
+		return true;
+	}
+
+	public function setActiveAlarmFilter($activeAlarmFilter){
+		$this->activeAlarmFilter=$activeAlarmFilter;
 		return true;
 	}
 	
@@ -169,10 +175,16 @@ class UI_model {
 			}
 			$alarms['alarms'][]=$alarm;
 		}
-		$stmt = $db->prepare('SELECT * FROM alarms WHERE ackn IS NOT :value AND date BETWEEN :dateFrom AND :dateTo ORDER BY date DESC LIMIT :limit');
+
+		$activeAlarmFilter = $this->activeAlarmFilter;
+		if($activeAlarmFilter) {
+			$stmt = $db->prepare('SELECT * FROM alarms WHERE ackn IS NOT :value AND date BETWEEN :dateFrom AND :dateTo ORDER BY date DESC LIMIT :limit');
+			$stmt->bindValue(':dateFrom', $dateFrom);
+			$stmt->bindValue(':dateTo', $dateTo);
+		} else {
+			$stmt = $db->prepare('SELECT * FROM alarms WHERE ackn IS NOT :value ORDER BY date DESC LIMIT :limit');
+		}
 		$stmt->bindValue(':value', 'true');
-		$stmt->bindValue(':dateFrom', $dateFrom);
-		$stmt->bindValue(':dateTo', $dateTo);
 		$stmt->bindValue(':limit', $limit);
 		$stmt->execute();
 		$stmt->setFetchMode(PDO::FETCH_ASSOC);
@@ -196,11 +208,11 @@ class UI_model {
 			}
 			$activeAlarms[]=$alarm;
 		}
-		if(empty($alarms['alarms'])) {
-			$alarms['info'] = 'No alarms found in this period';
-		}
 		if(!empty($activeAlarms)) {
 			$alarms['active_alarms'] = $activeAlarms;
+		}
+		if(empty($alarms['alarms']) && empty($alarms['active_alarms'])) {
+			$alarms['info'] = 'No alarms found in this period';
 		}
 		$totals = $this->readTotal();
 		if(!empty($totals)) {

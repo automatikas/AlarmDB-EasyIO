@@ -1,0 +1,145 @@
+{
+	"AlarmDbSettings" :{
+			"search": {
+				"enabled": true,
+				"title": "Search"
+			},
+			"dateselector": {
+				"enabled": true,
+				"activeAlarmFilter": false,
+			},
+			"controlBar": {
+				"enabled": true,
+				"manualUpdate": {
+					"enabled": true,
+					"title": "Refresh alarm list from DB"
+				},
+				"periodicUpdate": {
+					"enabled": true,
+					"title": "Refresh alarm list periodically"
+				},
+				"pagination": {
+					"enabled": true,
+					"title": "Pagination Switch: split or show all"
+				},
+				"tableColumns": {
+					"enabled": true,
+					"title": "Column switcher",
+					"columns": {
+						"priority": {
+							"title": "Priority"
+						},
+						"date": {
+							"title": "Dates"
+						},
+						"value": {
+							"title": "Values"
+						},
+						"text": {
+							"title": "Alarm message"
+						},
+						"tags": {
+							"title": "Tags"
+						},
+						"action": {
+							"title": "Actions"
+						}
+					}
+				},
+				"export": {
+					"enabled": true,
+					"title": "Export data",
+					"formats": [{
+						"format": "csv",
+						"enabled": true,
+						"title": "CSV"
+						},{
+						"format": "xml",
+						"enabled": false,
+						"title": "XML"
+						},{
+						"format": "json",
+						"enabled": true,
+						"title": "JSON"
+					}]
+				},
+				"usermenu": {
+					"enabled": false,
+					"title": "User menu",
+					"links": {
+						"myAcount": {
+						"enabled": false,
+						"title": "My account",
+						"href": "#"
+						},
+						"apiSettings": {
+						"enabled": false,
+						"title": "API settings",
+						"href": "#"
+						}
+					}
+				}
+			},
+			"table": {
+				"priorityRanges": {
+					"danger": {
+						"min": 0,
+						"max": 50
+					},
+					"warning": {
+						"min": 51,
+						"max": 100
+					},
+					"info": {
+						"min": 101,
+						"max": 150
+					},
+					"primary": {
+						"min": 151,
+						"max": 200
+					},
+					"success": {
+						"min": 201,
+						"max": 250
+					}
+				},
+				"action": {
+					"buttons": {
+						"ackn": {
+							"enabled": true
+						},
+						"delete": {
+							"enabled": true
+						},
+						"notes": {
+							"enabled": true
+						}
+					}
+				}
+			},
+			"tabs": {
+				"active": { 
+					"title": "Active alarms",
+					"enabled": true
+				},
+				"log": { 
+					"title": "Alarm log",
+					"enabled": true
+				},
+				"display": false
+			},
+			"logo": {
+				"img": "img/logo.png",
+				"alt": "AlarmDB",
+				"display": false
+			},
+			"user": {
+				"name": "User"
+			},
+			"footer": {
+				"totals": {
+					"title": "DB total:"
+				}
+			}
+	}
+}

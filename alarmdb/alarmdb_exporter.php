@@ -6,7 +6,7 @@
  * @author     Andrius Jasiulionis <automatikas@gmail.com>
  * @copyright  Copyright (c) 2017, Andrius Jasiulionis
  * @license    MIT
- * @version    2.08
+ * @version    2.08.3
  */
  
 	//ini_set('display_errors',1); error_reporting(E_ALL);
@@ -215,6 +215,12 @@
 		}
 		if(!empty($_inputs['dateTo'])) {
 			$input['dateTo'] = $_inputs['dateTo'];
+		}
+		$input['activeAlarmFilter'] = false;
+		if(!empty($_inputs['activeAlarmFilter'])) {
+			if($_inputs['activeAlarmFilter'] === 'true') {
+				$input['activeAlarmFilter'] = true;
+			}
 		}
 		if(!empty($_inputs['priority'])) {
 			$input['priority'] = $_inputs['priority'];

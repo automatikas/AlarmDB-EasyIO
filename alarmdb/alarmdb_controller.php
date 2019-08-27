@@ -6,7 +6,7 @@
  * @author     Andrius Jasiulionis <automatikas@gmail.com>
  * @copyright  Copyright (c) 2017, Andrius Jasiulionis
  * @license    MIT
- * @version    2.08
+ * @version    2.08.3
  */
  
 //ini_set('display_errors',1); error_reporting(E_ALL); 
@@ -125,6 +125,7 @@ class UI_controler {
 		$alarm= new UI_model();
 		$alarm->setDateTo($dateTo);
 		$alarm->setDateFrom($dateFrom);
+		$alarm->setActiveAlarmFilter($input['activeAlarmFilter']);
 		$alarms=$alarm->loadAllAlarms();
 		if($alarms){
 			$this->returnData=$alarms;

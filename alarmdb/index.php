@@ -6,7 +6,7 @@
  * @author     Andrius Jasiulionis <automatikas@gmail.com>
  * @copyright  Copyright (c) 2017, Andrius Jasiulionis
  * @license    MIT
- * @version    2.08.2
+ * @version    2.08.3
  */
 
 //ini_set('display_errors',1); error_reporting(E_ALL);

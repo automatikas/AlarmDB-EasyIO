@@ -1,7 +1,7 @@
 var AlarmDbSettings = {
 		title: "AlarmDB API UI core",
 		href: "https://github.com/automatikas/AlarmDB/releases/tag/",
-		version: "v2.08.2",
+		version: "v2.08.3",
 		author: "Andrius Jasiulionis <automatikas@gmail.com>",
 		copyright: "Copyright (c) 2017, Andrius Jasiulionis",
 		license: "MIT",
@@ -31,6 +31,7 @@ var AlarmDbSettings = {
 			},
 			dateselector: {
 				enabled: true,
+				activeAlarmFilter: false,
 				period: "day",
 				locale: {
 					applyLabel: 'OK',
@@ -627,6 +628,9 @@ function getDbAlarms() {
 		apiComands = {'www-command': 'alarmdb-all'};
 		AlarmDbSettings.api.headers.dateFrom = $('#dateselector_tab').find(".date-range").attr("date-range-from");
 		AlarmDbSettings.api.headers.dateTo = $('#dateselector_tab').find(".date-range").attr("date-range-to");
+		if (AlarmDbSettings.ui.dateselector.activeAlarmFilter === true) {
+			AlarmDbSettings.api.headers.activeAlarmFilter = true;
+		}
 	}
 	var headers = $.extend( true, apiComands, AlarmDbSettings.api.headers);
 	$.get( alarmAPI, headers)
@@ -670,6 +674,7 @@ function getDbAlarms() {
 			}
 		} else {
 			AlarmDbSettings.internals.active_content = '';
+			AlarmDbSettings.internals.display_active_rows = 0;
 			$('#active_alarm_tab').removeClass('active');
 			$('#alarm_log_tab').addClass('active');
 		}
@@ -694,15 +699,17 @@ function getDbAlarms() {
 				updateLogTableRowList(AlarmDbSettings.internals.page_size, AlarmDbSettings.internals.active_page);
 			}
 		} else {
-			$('#alarm_list').html( '' );
 			AlarmDbSettings.internals.log_content = '';
-			AlarmDbSettings.internals.active_content = '';
 			AlarmDbSettings.internals.display_log_rows = 0;
-			AlarmDbSettings.internals.display_active_rows = 0;
+		}
+
+		if (typeof(data.alarms) != 'undefined' && typeof(data.active_alarms) != 'undefined') {
+			$('#alarm_list').html( '' );
 			AlarmDbSettings.internals.display_rows = 0;
 			updatePaginationInfo(AlarmDbSettings.internals.display_rows, AlarmDbSettings.internals.page_size, AlarmDbSettings.internals.active_page);
 			updatePagination(AlarmDbSettings.internals.display_rows, AlarmDbSettings.internals.page_size);
 		}
+
 		if(AlarmDbSettings.internals.search_active === true) {
 			search_table($('#search').val());
 		}
