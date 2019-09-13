@@ -703,7 +703,7 @@ function getDbAlarms() {
 			AlarmDbSettings.internals.display_log_rows = 0;
 		}
 
-		if (typeof(data.alarms) != 'undefined' && typeof(data.active_alarms) != 'undefined') {
+		if (typeof(data.alarms) == 'undefined' && typeof(data.active_alarms) == 'undefined') {
 			$('#alarm_list').html( '' );
 			AlarmDbSettings.internals.display_rows = 0;
 			updatePaginationInfo(AlarmDbSettings.internals.display_rows, AlarmDbSettings.internals.page_size, AlarmDbSettings.internals.active_page);
