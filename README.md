@@ -26,7 +26,8 @@ Feel free to give me your feedback this will make this project go further and be
 3. Copy `ajsoAlarmDB` folder to your Sedona kits folders. 
 
 4. Install ajsoAlarmDB Sedona kit `1.0.45.25` or higher on your FG,FS,FW controllers.
-(2021-01-18) Install ajsoAlarmDB Sedona kit `2.0.0.25` or higher on your FG,FS,FW controllers for new Sedona v2.0 firmware
+
+(2021-01-18) Sedona kit `2.0.0.25` for new firmware with Sedona v2.0
 
 OPTIONAL: If you need demo data copy over `easyio.db` database to `/sdcard/` **IMPORTANT!!!** this will overwrite your database
 
