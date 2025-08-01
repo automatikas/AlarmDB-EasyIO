@@ -14,6 +14,32 @@
 $table_check = new UI_model();
 $table_check->tableExists();
 
+class AlarmDBConn {
+	private static $instance = NULL;
+	public function user_db() {
+	    if (!isset($this->user_db)) {
+	      try {
+	        //$user_dbpath = $_SERVER['DOCUMENT_ROOT'] . '/sdcard/' . $this->user_dbname;
+	        $user_dbpath = $_SERVER['DOCUMENT_ROOT'] . '/sdcard/cpt/plugins/alarmdb/alarm.db';
+	        $this->user_db = new PDO("sqlite:{$user_dbpath}");
+	      } catch (PDOException $e) {
+	        $message = "open user db failed";
+	        print "Error: " . $message . "<br/>";
+	        //print "Error: " . $e->getMessage() . "<br/>";
+	        die();
+	      }
+	    }
+	    return $this->user_db;
+	}
+
+	public static function instance() {
+		if (self::$instance === NULL) {
+	      self::$instance = new self();
+	    }
+	    return self::$instance;
+	} 
+}
+
 class UI_model {
 	
 	public $id=0;
@@ -95,7 +121,7 @@ class UI_model {
 	 */
 	public function getAlarm($id){
 		if($id!==''){
-			$db = DBConn::instance()->history_db();
+			$db = AlarmDBConn::instance()->user_db();
 			$getIdArray = array();
 			$wrongIdArray = array();
 			$getIdArray = explode(',', $id);
@@ -145,7 +171,7 @@ class UI_model {
 	 * This loads all alarms from database
 	 */
 	public function loadAllAlarms(){
-		$db = DBConn::instance()->history_db();
+		$db = AlarmDBConn::instance()->user_db();
 		$dateFrom = $this->dateFrom;
 		$dateTo = $this->dateTo;
 		$stmt = $db->prepare('SELECT * FROM alarms WHERE date BETWEEN :dateFrom AND :dateTo ORDER BY date DESC LIMIT :limit');
@@ -225,7 +251,7 @@ class UI_model {
 	 * This loads only active (not acknowledged) alarms from database
 	 */
 	public function loadActiveAlarms(){
-		$db = DBConn::instance()->history_db();
+		$db = AlarmDBConn::instance()->user_db();
 		$limit = 10000;
 		$stmt = $db->prepare('SELECT * FROM alarms WHERE ackn IS NOT :value ORDER BY date DESC LIMIT :limit');
 		$stmt ->bindValue(':value', 'true');
@@ -260,7 +286,7 @@ class UI_model {
 	 */
 	public function saveAlarm(){
 		if($this->date!='' && $this->priority!='' && $this->value!='' && $this->text!=''){
-			$db = DBConn::instance()->history_db();
+			$db = AlarmDBConn::instance()->user_db();
 			$alarm=array();
 			$date=$this->date;
 			$priority=$this->priority;
@@ -289,7 +315,7 @@ class UI_model {
 	 */
 	public function acknAlarm($id,$ackn_user,$now){
 		if($id!='' && $ackn_user!='' && $now!=''){
-			$db = DBConn::instance()->history_db();
+			$db = AlarmDBConn::instance()->user_db();
 			$acknIdArray = explode(',', $id);
 			$updateArray = array();
 			$wrongIdArray = array();
@@ -351,7 +377,7 @@ class UI_model {
 	 */
 	public function deleteAlarm($id){
 		if($id!=''){
-			$db = DBConn::instance()->history_db();
+			$db = AlarmDBConn::instance()->user_db();
 			$deleteIdArray = explode(',', $id);
 			$wrongIdArray = array();
 			foreach($deleteIdArray as $value){	
@@ -383,7 +409,7 @@ class UI_model {
 	 * This loads all alarms from database into returned value
 	 */
 	public function loadUiAllAlarms(){
-		$db = DBConn::instance()->history_db();
+		$db = AlarmDBConn::instance()->user_db();
 		$limit = 500;
 		$stmt = $db->prepare('SELECT * FROM alarms ORDER BY date DESC LIMIT :limit');
 		$stmt ->bindValue(':limit', $limit);
@@ -456,7 +482,7 @@ class UI_model {
 	 */
 	public function loadAllNotes($id){
 		if($id!==''){
-			$db = DBConn::instance()->history_db();
+			$db = AlarmDBConn::instance()->user_db();
 			$limit = 1000;
 			$getIdArray = explode(',', $id);
 			$responseArray = array();
@@ -490,7 +516,7 @@ class UI_model {
 	 */
 	public function writeAllNotes($ids,$user,$text,$now){
 		if($ids!='' && $user!='' && $text!='' && $now!=''){
-			$db = DBConn::instance()->history_db();
+			$db = AlarmDBConn::instance()->user_db();
 			$limit = 1000;
 			$getIdArray = explode(',', $ids);
 			$responseArray = array();
@@ -539,7 +565,7 @@ class UI_model {
 	 * This returns total count of records from DB
 	 */
 	public function readTotal(){
-		$db = DBConn::instance()->history_db();
+		$db = AlarmDBConn::instance()->user_db();
 		$limit = 100000;
 		$stmt = $db->prepare('SELECT ackn FROM alarms LIMIT :limit');
 		$stmt ->bindValue(':limit', $limit);
@@ -575,7 +601,7 @@ class UI_model {
 	 * This checks DB if AlarmDB tables ready/created if not creates new tables
 	 */
 	public function tableExists() {
-		$db = DBConn::instance()->history_db();
+		$db = AlarmDBConn::instance()->user_db();
 		try {
 			$alarms = $db->query("SELECT 1 FROM alarms LIMIT 1");
 		} catch (Exception $e) {
