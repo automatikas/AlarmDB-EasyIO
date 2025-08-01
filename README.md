@@ -9,14 +9,12 @@ Sedona Kit made for FG,FS,FW controllers lets you push alarms to server(s) direc
 # Can I used it for my commercial projects?
 Yes, project is an open source under MIT license. It is completely free and ment to encourage automation community to be more open and share developments more openly so we all can progress more and have better solutions around the world.
 
-# Authors quote
-If you want to contribute, support or have ideas how to expand this project in any way please get in contact with me with more information about possibilities.
-
-Feel free to give me your feedback this will make this project go further and beyond. Wish you and your projects get extra value by using this app.
+# Project Status
+Released in 2017, this project has been around for nearly eight years and has benefited from community use and feedback during that time. However, I now lack the bandwidth to continue maintaining it. Going forward, new features, bug fixes, or updates will only be pursued if there is a commercial contributor willing to sponsor the work. If your company or organization relies on this project and needs it to evolve, please get in touch about paid support. Otherwise, the repository will remain available as‑is. Thank you to everyone who has supported and used AlarmDB‑EasyIO over the years.
 
 [Andrius Jasiulionis](https://www.linkedin.com/in/andriusjasiulionis/)
 
-2017-October-Planet Earth
+2025-July-Planet Earth
 
 # Quick guide:
 1. Download the latest release | [follow this link](https://github.com/automatikas/AlarmDB-EasyIO/releases/latest)
