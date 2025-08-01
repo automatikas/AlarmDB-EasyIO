@@ -23,11 +23,11 @@ Released in 2017, this project has been around for nearly eight years and has be
 
 3. Copy `ajsoAlarmDB` folder to your Sedona kits folders. 
 
-4. Install ajsoAlarmDB Sedona kit `1.0.45.25` or higher on your FG,FS,FW controllers.
+4. Install ajsoAlarmDB Sedona kit `1.0.45.25` for really older firmware of FG,FS,FW controllers. Use Sedona kit `2.0.0.25` for new firmware with Sedona v2.0. CHeck CPT kit managment to find Sedona version.
 
-(2021-01-18) Sedona kit `2.0.0.25` for new firmware with Sedona v2.0
+OPTIONAL: If you need demo data copy over `/demo data/alarm.db` database to `/public/sdcard/cpt/plugins/alarmdb` **IMPORTANT!!!** this will overwrite your database
 
-OPTIONAL: If you need demo data copy over `easyio.db` database to `/sdcard/` **IMPORTANT!!!** this will overwrite your database
+MIGRATION: All versions below 2.9.0 used easyio.db database file. From version 2.9.0 own plugin database is introduced. If you want to import old alarms after migration simply copy `easyio.db` database file from `/public/sdcard/` to `/public/sdcard/cpt/plugins/alarmdb` and rename it to `alarm.db` **IMPORTANT!!!** allways make backups.
 
 # Manual: 
 Instructions | [follow this link](https://automatikas.gitbooks.io/alarmdb-for-easyio/content/)
