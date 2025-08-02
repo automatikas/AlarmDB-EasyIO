@@ -12,7 +12,7 @@ Yes, project is an open source under MIT license. It is completely free and ment
 # Project Status
 Released in 2017, this project has been around for nearly eight years and has benefited from community use and feedback during that time. However, I now lack the bandwidth to continue maintaining it. Going forward, new features, bug fixes, or updates will only be pursued if there is a commercial contributor willing to sponsor the work. If your company or organization relies on this project and needs it to evolve, please get in touch about paid support. Otherwise, the repository will remain available as‑is. Thank you to everyone who has supported and used AlarmDB‑EasyIO over the years.
 
-[Andrius Jasiulionis](https://www.linkedin.com/in/andriusjasiulionis/)
+Andrius Jasiulionis
 
 2025-July-Planet Earth
 
